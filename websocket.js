@@ -559,8 +559,8 @@ function createNewMarker(vehicle, features) {
     const zoom = map.getZoom();
     const size = 16; // Set the size to a constant value
 
-    // el.style.width = `${size}px`;
-    // el.style.height = `${size}px`;
+    el.style.width = `${size}px`;
+    el.style.height = `${size}px`;
 	let vehicleLabel = ['901', '910'].includes(vehicle.properties.route_code) ? 'Bus ID ' : 'Train Car #';
 
     const popup = new maplibregl.Popup()
@@ -685,6 +685,7 @@ map.on('zoom', function() {
 
     // Calculate the size of the marker and the arrow based on the zoom level
     const markerSize = zoom >= 15 ? 32 : 32 * 0.55;
+    const arrowSize = zoom >= 15 ? 5 : 5 * 0.5;
 
     // Update the size of each marker
     for (const vehicleId in markers) {
