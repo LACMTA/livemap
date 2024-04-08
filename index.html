@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BK2E8DN75J"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BK2E8DN75J');
+    </script>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M9GDT89R');</script>
+    <!-- End Google Tag Manager -->
+
+    <title>Metro Live Map - Beta</title>
+
+    <meta property="og:description" content="Live map of Los Angeles Metro busways and trains." />
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://use.typekit.net/goe1fni.css">
+
+
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
+
+    <script src="https://unpkg.com/mapbox-gl-esri-sources@0.0.7/dist/mapbox-gl-esri-sources.js"></script>
+    <!-- Include the Font Awesome library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/index-style.css">
+	<script async src="https://siteimproveanalytics.com/js/siteanalyze_6034017.js"></script>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M9GDT89R"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <div id="loading"
+        style="cursor:default;position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px; background-color: rgba(0, 0, 0, 0.5); color: white; border-radius: 5px; z-index: 9999;">
+        Loading live data
+        <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+    </script>
+    <div id="update-time"></div>
+
+    <div id="legend-positioner">
+        <div id="legend-mini">
+            <div id="legend-mini-logo">
+                <img src="images/metro_logo_only_black.png" alt="Metro Logo" width="36" height="36">
+                <div class="beta">Beta</div>
+            </div>
+            <div>
+                Metro Live Map
+            </div>
+            <img src="images/icon-grid.png" alt="icon representing Metro lines" width="36" height="36">
+        </div>
+        <div id="legend-container">
+            <svg id="legend-close" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g id="24px / IconRemove">
+                        <path id="Vector" fill-rule="evenodd" clip-rule="evenodd"
+                            d="M3.35354 2.6465C3.25924 2.55542 3.13294 2.50502 3.00184 2.50616C2.87074 2.5073 2.74534 2.55989 2.65263 2.65259C2.55993 2.74529 2.50734 2.8707 2.5062 3.0018C2.50506 3.1329 2.55546 3.2592 2.64654 3.3535L5.29304 6L2.64654 8.6465C2.59879 8.69262 2.56069 8.7478 2.53449 8.8088C2.50829 8.8698 2.49449 8.93541 2.49392 9.0018C2.49334 9.06819 2.50599 9.13403 2.53113 9.19548C2.55627 9.25693 2.5934 9.31275 2.64034 9.3597C2.68729 9.40664 2.74312 9.44377 2.80456 9.46891C2.86601 9.49405 2.93185 9.5067 2.99824 9.50613C3.06463 9.50555 3.13024 9.49176 3.19124 9.46555C3.25224 9.43935 3.30742 9.40126 3.35354 9.3535L6.00004 6.707L8.64654 9.3535C8.74084 9.44458 8.86714 9.49498 8.99824 9.49384C9.12934 9.4927 9.25475 9.44011 9.34745 9.34741C9.44015 9.25471 9.49274 9.1293 9.49388 8.9982C9.49502 8.8671 9.44462 8.7408 9.35354 8.6465L6.70704 6L9.35354 3.3535C9.44462 3.2592 9.49502 3.1329 9.49388 3.0018C9.49274 2.8707 9.44015 2.74529 9.34745 2.65259C9.25475 2.55989 9.12934 2.5073 8.99824 2.50616C8.86714 2.50502 8.74084 2.55542 8.64654 2.6465L6.00004 5.293L3.35354 2.6465Z"
+                            fill="black" fill-opacity="0.85" />
+                    </g>
+                </svg>
+            <div id="legend">
+                <div id="legend-header">
+                    <img src="images/metro_logo_only_black.png" alt="Metro Logo" width="40">
+                    <div id="legend-title">
+                        <div>Metro Live Map</div>
+                        <div class="beta">Beta</div>
+                    </div>
+                </div>
+                <hr>
+                <div id="legend-icons">
+                    <img src="https://lacmta.github.io/metro-iconography/Service_ALine.svg" alt="A Line icon">
+                    <img src="https://lacmta.github.io/metro-iconography/Service_BLine.svg" alt="B Line icon">
+                    <img src="https://lacmta.github.io/metro-iconography/Service_CLine.svg" alt="C Line icon">
+                    <img src="https://lacmta.github.io/metro-iconography/Service_DLine.svg" alt="D Line icon">
+                    <img src="https://lacmta.github.io/metro-iconography/Service_ELine2.svg" alt="E Line icon">
+                    <img src="https://lacmta.github.io/metro-iconography/Service_KLine.svg" alt="K Line icon">
+                    <img src="https://lacmta.github.io/metro-iconography/Service_GLine.svg" alt="G Line icon">
+                    <img src="https://lacmta.github.io/metro-iconography/Service_JLine.svg" alt="J Line icon">
+                </div>
+
+                <div id="legend-share">
+					<a href="https://forms.office.com/g/nMMFuK5QYe" target="_blank">
+                        <img src="lightbulb.svg" alt="Lightbulb icon" id="lightbulb">
+                        Share your thoughts!
+                    
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 12 13" fill="none">
+                            <path
+                                d="M9 7V10C9 10.2652 8.89464 10.5196 8.70711 10.7071C8.51957 10.8946 8.26522 11 8 11H2.5C2.23478 11 1.98043 10.8946 1.79289 10.7071C1.60536 10.5196 1.5 10.2652 1.5 10V4.5C1.5 4.23478 1.60536 3.98043 1.79289 3.79289C1.98043 3.60536 2.23478 3.5 2.5 3.5H5.5"
+                                stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M7.5 2H10.5V5" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M5 7.5L10.5 2" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/index.js"></script>
+    <script src="websocket.js"></script>
+</body>
+
+
+</html>

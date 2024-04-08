@@ -1,0 +1,343 @@
+html {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.5rem;
+    color: #575757;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    overflow-x: hidden;
+    /* Prevents horizontal overflow */
+}
+
+#legend-positioner {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#legend-mini {
+    position: relative;
+    bottom: 26px;
+    width: 240px;
+    height: 70px;
+    
+    margin: 0px auto;
+    padding: 8px 24px 8px 16px;
+
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    border-radius: 64px;
+    background-color: #fff;
+
+}
+
+#legend-mini-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#legend-container {
+    position: relative;
+    width: 198px;
+    bottom: 40px;
+    /* In mobile view, attribution control wraps to 2 lines.
+     * However, with the attribution control closed by default,
+     * we don't need to allocate the extra space.
+     */
+    /* bottom: 60px; */
+    margin: 0px auto;
+    background-color: #fff;
+    border-radius: 8px;
+	z-index: 9999;
+}
+
+#legend {
+    padding: 16px;
+}
+
+#legend-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 16px;
+    cursor: pointer;
+}
+
+#legend-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    padding-bottom: 8px;
+}
+
+#legend-title {
+    font-family: 'ff-scala-sans-pro', sans-serif;
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    align-items: center;
+}
+
+.beta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+
+    color: #fff;
+    background-color: #FF4500;
+    font-weight: 700;
+    font-size: 10px;
+    width: 23px;
+    height: 14px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 4px;
+}
+
+#legend-description {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #404040;
+}
+
+#legend hr {
+    color: #f3f3f3;
+    background-color: #f3f3f3;
+    border: none;
+    height: 1px;
+    flex-grow: 1;
+    width: 100%;
+}
+
+
+#legend-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#legend-icons img {
+    width: 32px;
+    height: 32px;
+}
+
+#legend-share {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    margin-top: 12px;
+}
+
+#legend-share #lightbulb {
+    width: 12px;
+    height: 12px;
+}
+
+#legend-share a {
+    text-decoration: none;
+    font-size: 10px;
+    line-height: 10px;
+    color: #000;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+}
+
+#legend-share a:hover, #legend-share a:active {
+    text-decoration: underline;
+    color: #000;
+}
+
+.marker {
+    display: block;
+    visibility: visible;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    /* Add this line */
+}
+
+@media (min-width: 600px) {
+    #legend-close {
+        display: none;
+    }
+    
+    #legend-container {
+        margin: 0;
+        position: fixed;
+        right: 16px;
+        bottom: 40px;
+    }
+}
+
+.dot {
+    animation: dot 1s infinite;
+}
+
+@keyframes dot {
+
+    0%,
+    20% {
+        opacity: 0;
+    }
+
+    50%,
+    100% {
+        opacity: 1;
+    }
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes dot {
+
+    0%,
+    20% {
+        opacity: 0;
+    }
+
+    50%,
+    100% {
+        opacity: 1;
+    }
+}
+
+.dot1 {
+    animation: dot 1s infinite;
+}
+
+.dot2 {
+    animation: dot 1s 0.33s infinite;
+}
+
+.dot3 {
+    animation: dot 1s 0.66s infinite;
+}
+
+#map {
+    height: 100%;
+}
+
+.maplibregl-ctrl-icon.home-icon {
+    background-color: #fff;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    padding: 6px;
+    width: auto;
+    height: auto;
+    outline: none;
+}
+
+.maplibregl-ctrl-icon.home-icon:hover {
+    background-color: #f8f8f8;
+}
+
+.maplibregl-ctrl-icon.home-icon i {
+    color: #404040;
+    font-size: 14px;
+}
+
+.maplibregl-ctrl-icon.home-icon:hover {
+    background-color: #ededed !important;
+}
+
+#route-select {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px !important;
+    /* Adjust as needed */
+}
+
+.choices {
+    width: 100% !important;
+    z-index: 9999;
+}
+
+.choices__list--dropdown {
+    max-height: 200px;
+    /* Adjust as needed */
+    overflow-y: auto;
+    z-index: 9999;
+}
+
+.choices__item {
+    color: black !important;
+    /* Adjust as needed */
+    background-color: white !important;
+    /* Adjust as needed */
+    z-index: 9999;
+}
+
+.choices__item--selectable {
+    color: black !important;
+    /* Adjust as needed */
+    background-color: white !important;
+    /* Adjust as needed */
+    z-index: 9999;
+}
+
+.choices__item--selected {
+    color: white !important;
+    /* Adjust as needed */
+    background-color: #007bff !important;
+    /* Adjust as needed */
+    z-index: 9999;
+}
+
+#update-time {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: white;
+    padding: 5px;
+    border-radius: 3px;
+    z-index: 1;
+    /* Ensure it's above other map elements */
+}
+
+.issues {
+    font-size: 12px;
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576">
+    <defs>
+        <style>
+            .cls-1 {
+                fill: none;
+            }
+
+            .cls-2 {
+                fill: #fff;
+            }
+
+            .cls-3 {
+                fill: #231f20;
+            }
+        </style>
+    </defs>
+    <g id="Layer_1-2" data-name="Layer 1" transform="rotate(180, 288, 288)">
+        <g id="Arrow">
+            <rect class="cls-1" width="576" height="576" transform="translate(576 576) rotate(180)"/>
+            <g id="Arrow-2" data-name="Arrow">
+                <g>
+                    <path class="cls-3" d="m518.25,288.09c0-127.25-103.15-230.4-230.4-230.4S57.45,160.84,57.45,288.09s103.15,230.4,230.4,230.4,230.4-103.15,230.4-230.4"/>
+                    <polygon class="cls-2" points="287.87 439.24 158.37 309.76 158.37 239.15 261.37 343.66 261.37 136.82 314.37 136.82 314.37 343.66 417.37 239.15 417.37 309.76 287.87 439.24"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

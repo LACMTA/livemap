@@ -1,0 +1,1754 @@
+
+{
+
+    "version": 8,
+    "sprite": "../sprites/sprite",
+    "glyphs": "../fonts/{fontstack}/{range}.pbf",
+    "sources": {
+          "esri": {
+                "type": "vector",
+                "bounds": [
+                      -119.184,
+                      33.638,
+                      -117.139,
+                      34.9814
+                ],
+                "minzoom": 8,
+                "maxzoom": 18,
+                "scheme": "xyz",
+                "url": "../../"
+          }
+    },
+    "layers": [
+          {
+                "id": "region (water)",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "region (water)",
+                "layout": { },
+                "paint": {
+                      "fill-color": "#C7EAFB"
+                }
+          },
+          {
+                "id": "Region (simplified)/land_sim/CITY/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "land_sim",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      0
+                ],
+                "maxzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#DDDBCB"
+                }
+          },
+          {
+                "id": "Region (simplified)/land_sim/LA County/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "land_sim",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      1
+                ],
+                "maxzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#DDDBCB"
+                }
+          },
+          {
+                "id": "Region (simplified)/land_sim/Other County/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "land_sim",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      2
+                ],
+                "maxzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#EAECEA"
+                }
+          },
+          {
+                "id": "Region (simplified)/land_sim/",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "land_sim",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      3
+                ],
+                "maxzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#828282",
+                      "fill-outline-color": "#6E6E6E"
+                }
+          },
+          {
+                "id": "Region (simplified)/land_sim_points (labels)",
+                "type": "circle",
+                "source": "esri",
+                "source-layer": "land_sim_points (labels)",
+                "layout": { },
+                "paint": {
+                      "circle-radius": 2.66667,
+                      "circle-color": "rgba(156,59,136,0)",
+                      "circle-stroke-color": "rgba(0,0,0,0)",
+                      "circle-stroke-width": 0
+                }
+          },
+          {
+                "id": "land (LA county)/LA County/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "land (LA county)",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      0
+                ],
+                "minzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#DDDBCB"
+                }
+          },
+          {
+                "id": "land (LA county)/Other County/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "land (LA county)",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      1
+                ],
+                "minzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#EAECEA"
+                }
+          },
+          {
+                "id": "land (LA county)/",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "land (LA county)",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      2
+                ],
+                "minzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#828282",
+                      "fill-outline-color": "#6E6E6E"
+                }
+          },
+          {
+                "id": "Metro_rail_carto (Label OBSTRUCTION only)/",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "Metro_rail_carto (Label OBSTRUCTION only)",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      8
+                ],
+                "minzoom": 6.89,
+                "layout": {
+                      "line-cap": "round",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#828282",
+                      "line-width": 2
+                }
+          },
+          {
+                "id": "inlets/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "inlets",
+                "layout": { },
+                "paint": {
+                      "fill-color": "#C7EAFB"
+                }
+          },
+          {
+                "id": "Parks/parks_cpad small/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "parks_cpad small",
+                "minzoom": 9.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#CDE5C0"
+                }
+          },
+          {
+                "id": "Parks/parks_cpad large/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "parks_cpad large",
+                "minzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#CDE5C0"
+                }
+          },
+          {
+                "id": "land (other county)/LA County/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "land (other county)",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      0
+                ],
+                "minzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#DDDBCB"
+                }
+          },
+          {
+                "id": "land (other county)/Other County/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "land (other county)",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      1
+                ],
+                "minzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#EAECEA"
+                }
+          },
+          {
+                "id": "land (other county)/",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "land (other county)",
+                "filter": [
+                      "==",
+                      "_symbol",
+                      2
+                ],
+                "minzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#828282",
+                      "fill-outline-color": "#6E6E6E"
+                }
+          },
+          {
+                "id": "county_line",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "county_line",
+                "layout": {
+                      "line-cap": "round",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#CBD8CB",
+                      "line-dasharray": [
+                            2.5,
+                            1.5
+                      ],
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        5.89,
+                                        1.33333
+                                  ],
+                                  [
+                                        11.21,
+                                        2.66667
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "waterways (label)",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "waterways (label)",
+                "minzoom": 8.72,
+                "layout": {
+                      "line-cap": "round",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#93C5EB",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        8.72,
+                                        0.666667
+                                  ],
+                                  [
+                                        11.21,
+                                        2
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Ports (widen border)/2",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "Ports (widen border)",
+                "minzoom": 8.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#B3C3C3"
+                }
+          },
+          {
+                "id": "airport_poly/2",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "airport_poly",
+                "minzoom": 9.72,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#B3C3C3"
+                }
+          },
+          {
+                "id": "airport_poly2/2",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "airport_poly2",
+                "minzoom": 12.22,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#B3C3C3"
+                }
+          },
+          {
+                "id": "Building (OSM)/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "Building (OSM)",
+                "minzoom": 14.27,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#D3C9B6"
+                }
+          },
+          {
+                "id": "school_college_university (landuse)/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "school_college_university (landuse)",
+                "minzoom": 11.21,
+                "maxzoom": 13.22,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#F9C0C7"
+                }
+          },
+          {
+                "id": "government_building/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "government_building",
+                "minzoom": 13.22,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#B3C3C3"
+                }
+          },
+          {
+                "id": "school_college_university_hospital (building)/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "school_college_university_hospital (building)",
+                "minzoom": 13.22,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#F9C0C7"
+                }
+          },
+          {
+                "id": "University/College/School_point (labels)",
+                "type": "circle",
+                "source": "esri",
+                "source-layer": "University/College/School_point (labels)",
+                "layout": { },
+                "paint": {
+                      "circle-radius": 0.666667,
+                      "circle-color": "rgba(168,131,66,0)",
+                      "circle-stroke-color": "#000000",
+                      "circle-stroke-width": 0
+                }
+          },
+          {
+                "id": "metrolink line/1",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "metrolink line",
+                "minzoom": 7.72,
+                "layout": {
+                      "line-cap": "round",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#A7AAAC",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        7.72,
+                                        0.444444
+                                  ],
+                                  [
+                                        13.22,
+                                        1.77778
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "metrolink line/0",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "metrolink line",
+                "minzoom": 7.72,
+                "layout": {
+                      "line-join": "bevel"
+                },
+                "paint": {
+                      "line-color": "#A7AAAC",
+                      "line-dasharray": [
+                            0.333333,
+                            1.33333
+                      ],
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        7.72,
+                                        1.33333
+                                  ],
+                                  [
+                                        13.22,
+                                        5.33333
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Roads (Regional)/major_roads_sim",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "major_roads_sim",
+                "minzoom": 9.72,
+                "maxzoom": 11.21,
+                "layout": {
+                      "line-cap": "round",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#FFFFFF",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        10.07,
+                                        1.33333
+                                  ],
+                                  [
+                                        11.21,
+                                        2
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Roads (Regional)/freeway_sim_1/1",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "freeway_sim_1",
+                "minzoom": 8.72,
+                "maxzoom": 11.21,
+                "layout": {
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#A7AAAC",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        8.72,
+                                        4
+                                  ],
+                                  [
+                                        11.21,
+                                        5.33333
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Roads (Regional)/freeway_sim_2/0",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "freeway_sim_2",
+                "minzoom": 8.72,
+                "maxzoom": 11.21,
+                "layout": {
+                      "line-cap": "round",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#FFFFFF",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        8.72,
+                                        1.77778
+                                  ],
+                                  [
+                                        11.21,
+                                        2.66667
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "water_poly/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "water_poly",
+                "minzoom": 11.21,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#C7EAFB"
+                }
+          },
+          {
+                "id": "POI/Attractions_Venues/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "Attractions_Venues",
+                "minzoom": 11.21,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#C7C4E2"
+                }
+          },
+          {
+                "id": "POI/Attractions_Venues_points (labels)",
+                "type": "circle",
+                "source": "esri",
+                "source-layer": "Attractions_Venues_points (labels)",
+                "layout": { },
+                "paint": {
+                      "circle-radius": 0.666667,
+                      "circle-color": "rgba(138,92,33,0)",
+                      "circle-stroke-color": "#000000",
+                      "circle-stroke-width": 0
+                }
+          },
+          {
+                "id": "POI/poi beach",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "poi beach",
+                "minzoom": 11.21,
+                "layout": {
+                      "icon-image": "POI/poi beach",
+                      "icon-allow-overlap": true
+                },
+                "paint": {
+                      "icon-color": "#000000"
+                }
+          },
+          {
+                "id": "Ports_points (anchor)",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "Ports_points (anchor)",
+                "minzoom": 8.72,
+                "layout": {
+                      "icon-image": "Ports_points (anchor)",
+                      "icon-size": {
+                            "stops": [
+                                  [
+                                        8.72,
+                                        0.8
+                                  ],
+                                  [
+                                        11.21,
+                                        1.3
+                                  ]
+                            ]
+                      },
+                      "icon-allow-overlap": true
+                },
+                "paint": {
+                      "icon-color": "#000000"
+                }
+          },
+          {
+                "id": "Ports_points (labels)",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "Ports_points (labels)",
+                "minzoom": 8.72,
+                "layout": {
+                      "icon-image": "Ports_points (labels)",
+                      "icon-allow-overlap": true
+                },
+                "paint": {
+                      "icon-color": "rgba(255,0,0,0)"
+                }
+          },
+          {
+                "id": "airport_point (No Fill)",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "airport_point (No Fill)",
+                "minzoom": 8.72,
+                "layout": {
+                      "icon-image": "airport_point (No Fill)",
+                      "icon-size": {
+                            "stops": [
+                                  [
+                                        5.89,
+                                        0.666667
+                                  ],
+                                  [
+                                        8.72,
+                                        0.833333
+                                  ],
+                                  [
+                                        13.22,
+                                        1.16667
+                                  ]
+                            ]
+                      },
+                      "icon-allow-overlap": true
+                },
+                "paint": {
+                      "icon-color": "#000000"
+                }
+          },
+          {
+                "id": "Roads (OSM)/small roads",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "small roads",
+                "minzoom": 14.27,
+                "layout": {
+                      "line-cap": "round",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#FFFFFF",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        13.59,
+                                        1.33333
+                                  ],
+                                  [
+                                        14.27,
+                                        2.66667
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Roads (OSM)/minor roads",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "minor roads",
+                "minzoom": 12.22,
+                "layout": {
+                      "line-cap": "round",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#FFFFFF",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        13.22,
+                                        2.66667
+                                  ],
+                                  [
+                                        14.27,
+                                        4
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Roads (OSM)/major roads",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "major roads",
+                "minzoom": 11.21,
+                "layout": {
+                      "line-cap": "round",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#FFFFFF",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        11.21,
+                                        2
+                                  ],
+                                  [
+                                        14.27,
+                                        6.66667
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Roads (OSM)/freeway_1/1",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "freeway_1",
+                "minzoom": 11.21,
+                "layout": {
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#A7AAAC",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        11.21,
+                                        5.33333
+                                  ],
+                                  [
+                                        14.27,
+                                        8
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Roads (OSM)/freeway_2/0",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "freeway_2",
+                "minzoom": 11.21,
+                "layout": {
+                      "line-cap": "round",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#FFFFFF",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        11.21,
+                                        2.66667
+                                  ],
+                                  [
+                                        14.27,
+                                        3.55556
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "metrolink_stations",
+                "type": "circle",
+                "source": "esri",
+                "source-layer": "metrolink_stations",
+                "minzoom": 10.07,
+                "layout": { },
+                "paint": {
+                      "circle-radius": {
+                            "stops": [
+                                  [
+                                        5.89,
+                                        2.33333
+                                  ],
+                                  [
+                                        11.21,
+                                        3.66667
+                                  ]
+                            ]
+                      },
+                      "circle-color": "#FFFFFF",
+                      "circle-stroke-color": "#000000",
+                      "circle-stroke-width": {
+                            "stops": [
+                                  [
+                                        5.89,
+                                        0.666667
+                                  ],
+                                  [
+                                        11.21,
+                                        0.666667
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Union Station Buildings/Buildings_UnionStation/1",
+                "type": "fill",
+                "source": "esri",
+                "source-layer": "Buildings_UnionStation",
+                "minzoom": 13.22,
+                "layout": { },
+                "paint": {
+                      "fill-color": "#D3C9B6"
+                }
+          },
+          {
+                "id": "Union Station Buildings/Union Station Underground Walkway/1",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "Union Station Underground Walkway",
+                "minzoom": 13.22,
+                "layout": {
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#343434",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        13.22,
+                                        4
+                                  ],
+                                  [
+                                        14.27,
+                                        5.33333
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Union Station Buildings/Union Station Underground Walkway/0",
+                "type": "line",
+                "source": "esri",
+                "source-layer": "Union Station Underground Walkway",
+                "minzoom": 13.22,
+                "layout": {
+                      "line-cap": "square",
+                      "line-join": "round"
+                },
+                "paint": {
+                      "line-color": "#FFFFFF",
+                      "line-width": {
+                            "stops": [
+                                  [
+                                        13.22,
+                                        2.66667
+                                  ],
+                                  [
+                                        14.27,
+                                        3.55556
+                                  ]
+                            ]
+                      }
+                }
+          },
+          {
+                "id": "Region (simplified)/land_sim_points (labels)/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "land_sim_points (labels)",
+                "minzoom": 6.89,
+                "maxzoom": 8.72,
+                "layout": {
+                      "text-font": [
+                            "DINCond-Black Regular"
+                      ],
+                      "text-size": 12,
+                      "text-anchor": "center",
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "waterways (label)/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "waterways (label)/label",
+                "minzoom": 11.21,
+                "layout": {
+                      "symbol-placement": "line",
+                      "symbol-spacing": 1000,
+                      "text-font": [
+                            "DIN Pro Regular"
+                      ],
+                      "text-size": 9.33333,
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#00AEEF"
+                }
+          },
+          {
+                "id": "county_border_labels/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "county_border_labels/label",
+                "minzoom": 8.72,
+                "layout": {
+                      "symbol-placement": "line",
+                      "symbol-spacing": 1000,
+                      "text-font": [
+                            "DIN Pro Regular"
+                      ],
+                      "text-size": 10.6667,
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "POI/poi beach/label/West",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "poi beach",
+                "filter": [
+                      "==",
+                      "_label_class1",
+                      1
+                ],
+                "minzoom": 11.21,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Italic"
+                      ],
+                      "text-size": 9.33333,
+                      "text-anchor": "right",
+                      "text-justify": "right",
+                      "text-offset": [
+                            -0.87619,
+                            0
+                      ],
+                      "text-field": "{_name1}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#A96C43"
+                }
+          },
+          {
+                "id": "POI/poi beach/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "poi beach",
+                "filter": [
+                      "==",
+                      "_label_class",
+                      0
+                ],
+                "minzoom": 11.21,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Italic"
+                      ],
+                      "text-size": 10.6667,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.132332,
+                            -0.00455443
+                      ],
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#A96C43"
+                }
+          },
+          {
+                "id": "POI/poi beach/label/South",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "poi beach",
+                "filter": [
+                      "==",
+                      "_label_class2",
+                      2
+                ],
+                "minzoom": 11.21,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Italic"
+                      ],
+                      "text-size": 9.33333,
+                      "text-anchor": "top",
+                      "text-offset": [
+                            0,
+                            0.679365
+                      ],
+                      "text-field": "{_name2}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#A96C43"
+                }
+          },
+          {
+                "id": "Parks/parks_cpad_point (labels)/label/Small",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "parks_cpad_point (labels)",
+                "filter": [
+                      "==",
+                      "_label_class2",
+                      2
+                ],
+                "minzoom": 13.22,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Regular"
+                      ],
+                      "text-size": 10.6667,
+                      "text-anchor": "center",
+                      "text-field": "{_name2}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#00AE51"
+                }
+          },
+          {
+                "id": "government_building_point (labels)/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "government_building_point (labels)",
+                "minzoom": 13.22,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Medium Regular"
+                      ],
+                      "text-size": 9.33333,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.101015,
+                            0.198985
+                      ],
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "POI/poi misc",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "poi misc",
+                "minzoom": 12.22,
+                "layout": {
+                      "icon-image": "POI/poi misc",
+                      "icon-allow-overlap": true,
+                      "text-font": [
+                            "DIN Pro Regular"
+                      ],
+                      "text-size": 10.6667,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.0883883,
+                            0.211612
+                      ],
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "icon-color": "#000000",
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "University/College/School_point (labels)/label/School",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "University/College/School_point (labels)",
+                "filter": [
+                      "==",
+                      "_label_class1",
+                      1
+                ],
+                "minzoom": 13.22,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Regular"
+                      ],
+                      "text-size": 10.6667,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.0883883,
+                            0.211612
+                      ],
+                      "text-field": "{_name1}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "University/College/School_point (labels)/label/University/College",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "University/College/School_point (labels)",
+                "filter": [
+                      "==",
+                      "_label_class",
+                      0
+                ],
+                "minzoom": 11.21,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Medium Regular"
+                      ],
+                      "text-size": 10.6667,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.0883883,
+                            0.211612
+                      ],
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "POI/Attractions_Venues_points (labels)/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "Attractions_Venues_points (labels)",
+                "minzoom": 11.21,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Regular"
+                      ],
+                      "text-size": 10.6667,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.0883883,
+                            0.211612
+                      ],
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "Neighborhood_osm_point (county)/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "Neighborhood_osm_point (county)",
+                "minzoom": 11.21,
+                "maxzoom": 14.85,
+                "layout": {
+                      "text-font": [
+                            "DINPro-CondBlack Regular"
+                      ],
+                      "text-size": 12,
+                      "text-anchor": "center",
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "LA_Times_Neighborhood_point (city)/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "LA_Times_Neighborhood_point (city)",
+                "minzoom": 11.21,
+                "maxzoom": 14.85,
+                "layout": {
+                      "text-font": [
+                            "DINPro-CondBlack Regular"
+                      ],
+                      "text-size": 12,
+                      "text-anchor": "center",
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "Parks/parks_cpad_point (labels)/label/Medium",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "parks_cpad_point (labels)",
+                "filter": [
+                      "==",
+                      "_label_class1",
+                      1
+                ],
+                "minzoom": 11.21,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Regular"
+                      ],
+                      "text-size": 10.6667,
+                      "text-anchor": "center",
+                      "text-field": "{_name1}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#00AE51"
+                }
+          },
+          {
+                "id": "Parks/parks_cpad_point (labels)/label/Very Large",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "parks_cpad_point (labels)",
+                "filter": [
+                      "==",
+                      "_label_class3",
+                      3
+                ],
+                "minzoom": 8.72,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 10.6667,
+                      "text-anchor": "center",
+                      "text-field": "{_name3}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#00AE51"
+                }
+          },
+          {
+                "id": "Parks/parks_cpad_point (labels)/label/Large",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "parks_cpad_point (labels)",
+                "filter": [
+                      "==",
+                      "_label_class",
+                      0
+                ],
+                "minzoom": 10.07,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Regular"
+                      ],
+                      "text-size": 10.6667,
+                      "text-anchor": "center",
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#00AE51"
+                }
+          },
+          {
+                "id": "Roads (OSM)/minor roads/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "minor roads/label",
+                "minzoom": 13.22,
+                "layout": {
+                      "symbol-placement": "line",
+                      "symbol-spacing": 1000,
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 8,
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E",
+                      "text-halo-color": "#FFFFFF",
+                      "text-halo-width": 0.666667
+                }
+          },
+          {
+                "id": "city labels (all)/label/Minor",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "city labels (all)",
+                "filter": [
+                      "==",
+                      "_label_class1",
+                      1
+                ],
+                "minzoom": 10.07,
+                "layout": {
+                      "text-font": [
+                            "DINPro-CondBlack Regular"
+                      ],
+                      "text-size": 12,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.0785674,
+                            0.221433
+                      ],
+                      "text-field": "{_name1}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "airport_poly/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "airport_poly/label",
+                "minzoom": 11.21,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 10.6667,
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#000000"
+                }
+          },
+          {
+                "id": "airport_poly2/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "airport_poly2/label",
+                "minzoom": 12.22,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 10.6667,
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#000000"
+                }
+          },
+          {
+                "id": "Roads (OSM)/major roads/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "major roads/label",
+                "minzoom": 11.21,
+                "layout": {
+                      "symbol-placement": "line",
+                      "symbol-spacing": 1000,
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 9.33333,
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E",
+                      "text-halo-color": "#FFFFFF",
+                      "text-halo-width": 0.666667
+                }
+          },
+          {
+                "id": "Roads (Regional)/major_roads_sim/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "major_roads_sim/label",
+                "minzoom": 10.07,
+                "maxzoom": 11.21,
+                "layout": {
+                      "symbol-placement": "line",
+                      "symbol-spacing": 1000,
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 8.66667,
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E",
+                      "text-halo-color": "#FFFFFF",
+                      "text-halo-width": 0.333333
+                }
+          },
+          {
+                "id": "Roads (Regional)/freeway_shields/label/State Hwy",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "freeway_shields/label",
+                "filter": [
+                      "==",
+                      "_label_class",
+                      2
+                ],
+                "minzoom": 9.72,
+                "layout": {
+                      "symbol-placement": "line",
+                      "symbol-spacing": 288,
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 9.33333,
+                      "text-letter-spacing": 0.09,
+                      "text-field": "{_name}",
+                      "icon-image": "Roads (Regional)/freeway_shields/State Hwy/{_len}",
+                      "icon-rotation-alignment": "viewport",
+                      "text-rotation-alignment": "viewport"
+                },
+                "paint": {
+                      "text-color": "#FFFFFF"
+                }
+          },
+          {
+                "id": "Roads (Regional)/freeway_shields/label/US Hwy",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "freeway_shields/label",
+                "filter": [
+                      "==",
+                      "_label_class",
+                      1
+                ],
+                "minzoom": 9.72,
+                "layout": {
+                      "symbol-placement": "line",
+                      "symbol-spacing": 288,
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 9.33333,
+                      "text-field": "{_name}",
+                      "icon-image": "Roads (Regional)/freeway_shields/US Hwy/{_len}",
+                      "icon-rotation-alignment": "viewport",
+                      "text-rotation-alignment": "viewport"
+                },
+                "paint": {
+                      "text-color": "#000000"
+                }
+          },
+          {
+                "id": "Roads (Regional)/freeway_shields/label/Interstate (zout)",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "freeway_shields/label",
+                "filter": [
+                      "==",
+                      "_label_class",
+                      3
+                ],
+                "minzoom": 8.72,
+                "maxzoom": 9.72,
+                "layout": {
+                      "symbol-placement": "line",
+                      "symbol-spacing": 288,
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 9.33333,
+                      "text-field": "{_name}",
+                      "icon-image": "Roads (Regional)/freeway_shields/Interstate (zout)/{_len}",
+                      "icon-rotation-alignment": "viewport",
+                      "text-rotation-alignment": "viewport"
+                },
+                "paint": {
+                      "text-color": "#FFFFFF"
+                }
+          },
+          {
+                "id": "Roads (Regional)/freeway_shields/label/Interstate (zin)",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "freeway_shields/label",
+                "filter": [
+                      "==",
+                      "_label_class",
+                      0
+                ],
+                "minzoom": 9.72,
+                "layout": {
+                      "symbol-placement": "line",
+                      "symbol-spacing": 400,
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 10.6667,
+                      "text-field": "{_name}",
+                      "icon-image": "Roads (Regional)/freeway_shields/Interstate (zin)/{_len}",
+                      "icon-rotation-alignment": "viewport",
+                      "text-rotation-alignment": "viewport"
+                },
+                "paint": {
+                      "text-color": "#FFFFFF"
+                }
+          },
+          {
+                "id": "city labels (all)/label/Medium",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "city labels (all)",
+                "filter": [
+                      "==",
+                      "_label_class2",
+                      2
+                ],
+                "minzoom": 10.07,
+                "layout": {
+                      "text-font": [
+                            "DINPro-CondBlack Regular"
+                      ],
+                      "text-size": 12,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.0785674,
+                            0.221433
+                      ],
+                      "text-field": "{_name2}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "metrolink_stations/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "metrolink_stations",
+                "minzoom": 11.21,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Regular"
+                      ],
+                      "text-size": 9.33333,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.422444,
+                            -0.122444
+                      ],
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#000000"
+                }
+          },
+          {
+                "id": "city labels (major)/label/Major",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "city labels (major)",
+                "minzoom": 8.72,
+                "maxzoom": 10.07,
+                "layout": {
+                      "text-font": [
+                            "DINPro-CondBlack Regular"
+                      ],
+                      "text-size": 12,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.0785674,
+                            0.221433
+                      ],
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "city labels (all)/label/Major",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "city labels (all)",
+                "filter": [
+                      "==",
+                      "_label_class",
+                      0
+                ],
+                "minzoom": 8.72,
+                "layout": {
+                      "text-font": [
+                            "DINPro-CondBlack Regular"
+                      ],
+                      "text-size": 12,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.0785674,
+                            0.221433
+                      ],
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#5C5D5E"
+                }
+          },
+          {
+                "id": "Ports_points (labels)/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "Ports_points (labels)",
+                "filter": [
+                      "==",
+                      "_label_class",
+                      0
+                ],
+                "minzoom": 9.72,
+                "maxzoom": 12.22,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 12,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            -0.0897785,
+                            -0.567011
+                      ],
+                      "text-field": "{_name}",
+                      "text-allow-overlap": true,
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#000000"
+                }
+          },
+          {
+                "id": "Ports_points (labels)/label/Class 2",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "Ports_points (labels)",
+                "filter": [
+                      "==",
+                      "_label_class1",
+                      1
+                ],
+                "minzoom": 12.22,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 12,
+                      "text-anchor": "bottom-left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            -0.0897785,
+                            -0.567011
+                      ],
+                      "text-field": "{_name1}",
+                      "text-allow-overlap": true,
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#000000"
+                }
+          },
+          {
+                "id": "airport_point (No Fill)/label/Class 1",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "airport_point (No Fill)",
+                "minzoom": 9.72,
+                "layout": {
+                      "text-font": [
+                            "DIN Pro Bold"
+                      ],
+                      "text-size": 12,
+                      "text-anchor": "left",
+                      "text-justify": "left",
+                      "text-offset": [
+                            0.569986,
+                            0
+                      ],
+                      "text-field": "{_name}",
+                      "text-optional": true
+                },
+                "paint": {
+                      "text-color": "#000000"
+                }
+          },
+          {
+                "id": "Hospital_point (label)",
+                "type": "symbol",
+                "source": "esri",
+                "source-layer": "Hospital_point (label)",
+                "minzoom": 11.21,
+                "layout": {
+                      "icon-image": "Hospital_point (label)",
+                      "icon-allow-overlap": true
+                },
+                "paint": {
+                      "icon-color": "#000000",
+                      "fill-color": "#EAECEA"
+                }
+          }
+    ]
+
+}

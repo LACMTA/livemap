@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BK2E8DN75J"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BK2E8DN75J');
+    </script>
+
+    <title>Metro - Live Bus Route Map</title>
+    <meta property="og:description" content="Real-time bus locations for Metro." />
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
+
+    <script src="https://unpkg.com/mapbox-gl-esri-sources@0.0.7/dist/mapbox-gl-esri-sources.js"></script>
+    <!-- Include the Font Awesome library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            overflow-x: hidden;
+            /* Prevents horizontal overflow */
+        }
+
+        .dot {
+            animation: dot 1s infinite;
+        }
+
+        @keyframes slideAway {
+            0% {
+                transform: translateX(0);
+            }
+
+            60% {
+                transform: translateX(20%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        #legend {
+            transform: translateX(0);
+            cursor: pointer;
+            padding: 0;
+            z-index: 9999;
+        }
+
+        @media (max-width: 600px) {
+            #legend {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        #legend.hidden {
+            animation: slideAway .5s forwards;
+            padding-left: 30px;
+        }
+
+        @keyframes dot {
+
+            0%,
+            20% {
+                opacity: 0;
+            }
+
+            50%,
+            100% {
+                opacity: 1;
+            }
+        }
+
+        #toggle-legend {
+            position: absolute;
+            left: -30px;
+            /* Adjust as needed */
+            top: 0;
+            bottom: 0;
+            width: 30px;
+            /* Adjust as needed */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            background-color: #fff;
+            /* Adjust as needed */
+            border: none;
+            cursor: pointer;
+        }
+
+        #toggle-legend i {
+            font-size: 12px;
+            /* Adjust as needed */
+        }
+
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes dot {
+
+            0%,
+            20% {
+                opacity: 0;
+            }
+
+            50%,
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .dot1 {
+            animation: dot 1s infinite;
+        }
+
+        .dot2 {
+            animation: dot 1s 0.33s infinite;
+        }
+
+        .dot3 {
+            animation: dot 1s 0.66s infinite;
+        }
+
+        .beta {
+            color: #FF4500;
+            /* Orange text color */
+            font-size: 0.8em;
+            /* Smaller font size */
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+
+        .marker {
+            display: block;
+            visibility: visible;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 0;
+            background-size: cover;
+
+        }
+
+
+        .maplibregl-ctrl-icon.home-icon {
+            background-color: #fff;
+            border: none;
+            border-radius: 3px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            padding: 6px;
+            width: auto;
+            height: auto;
+            outline: none;
+        }
+
+        .maplibregl-ctrl-icon.home-icon:hover {
+            background-color: #f8f8f8;
+        }
+
+        .maplibregl-ctrl-icon.home-icon i {
+            color: #404040;
+            font-size: 14px;
+        }
+
+        #route-select {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px !important;
+            /* Adjust as needed */
+        }
+
+        .choices {
+            width: 100% !important;
+            z-index: 9999;
+        }
+
+        .choices__list--dropdown {
+            max-height: 200px;
+            /* Adjust as needed */
+            overflow-y: auto;
+            z-index: 9999;
+        }
+
+        .choices__item {
+            color: black !important;
+            /* Adjust as needed */
+            background-color: white !important;
+            /* Adjust as needed */
+            z-index: 9999;
+        }
+
+        .choices__item--selectable {
+            color: black !important;
+            /* Adjust as needed */
+            background-color: white !important;
+            /* Adjust as needed */
+            z-index: 9999;
+        }
+
+        .choices__item--selected {
+            color: white !important;
+            /* Adjust as needed */
+            background-color: #007bff !important;
+            /* Adjust as needed */
+            z-index: 9999;
+        }
+
+        #update-time {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: white;
+            padding: 5px;
+            border-radius: 3px;
+            z-index: 1;
+            /* Ensure it's above other map elements */
+        }
+
+        .issues {
+            font-size: 12px;
+        }
+
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            /* Red */
+            color: white;
+            opacity: 1;
+            transition: opacity 0.6s;
+            /* 600ms to fade out */
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css">
+<script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+<select id="route-select">
+</select>
+
+<body>
+    <div class="alert">
+        The map is currently under maintenance. We apologize for any inconvenience.
+    </div>
+    <div id="loading"
+        style="cursor:default;position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px; background-color: rgba(0, 0, 0, 0.5); color: white; border-radius: 5px; z-index: 9999;">
+        Loading live data
+        <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+    </div>
+
+
+    <div id="map"></div>
+
+    <script>
+        // hide the alert
+        document.querySelector('.alert').style.display = 'none';
+        // config options
+        const ESRI_KEY = "AAPKccc2cf38fecc47649e91529acf524abflSSkRTjWwH0AYmZi8jaRo-wdpcTf6z67CLCkOjVYlw3pZyUIF_Y4KGBndq35Y02z";
+        const MAPTILER_KEY = "KydZlIiVFdYDFFfQ4QYq"
+        const basemapEnum = "65aff2873118478482ec3dec199e9058";
+        let timer = setTimeout(() => {
+            document.getElementById('loading').innerHTML = "Sorry, loading timed out: we're currently unable to load data. Please check your connection or try again later.";
+        }, 25000); // 25 seconds
+        let hasAdjustedBounds = false;
+        // Declare a global variable to store the route shapes data
+        let routeShapesData;
+        let currentRoute;
+        // Create a map of vehicle IDs to markers
+        let markers = {};
+
+        // Get the current time
+        const now = new Date();
+
+        // Convert the current time to PST
+        let pst = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+
+        // Get the current hour in PST
+        let hour = pst.getHours();
+
+        // map setup
+
+        let map = new maplibregl.Map({
+            container: 'map',
+            center: [-118.25133692966446, 34.05295151499077],
+            zoom: 9,
+            pitch: 20,
+            bearing: 0,
+            container: 'map',
+            antialias: true,
+            minZoom: 8, // Minimum zoom level
+            style: `https://basemapstyles-api.arcgis.com/arcgis/rest/services/styles/v2/styles/items/${basemapEnum}?token=${ESRI_KEY}`,
+        });
+
+        const routeIcons = {
+            '801': 'https://lacmta.github.io/metro-iconography/Service_ALine.svg',
+            '802': 'https://lacmta.github.io/metro-iconography/Service_BLine.svg',
+            '803': 'https://lacmta.github.io/metro-iconography/Service_CLine.svg',
+            '804': 'https://lacmta.github.io/metro-iconography/Service_ELine2.svg',
+            '806': 'https://lacmta.github.io/metro-iconography/Service_LLine.svg',
+            '807': 'https://lacmta.github.io/metro-iconography/Service_KLine.svg',
+            '805': 'https://lacmta.github.io/metro-iconography/Service_DLine.svg',
+            '901': 'https://lacmta.github.io/metro-iconography/Service_GLine.svg',
+            '910': 'https://lacmta.github.io/metro-iconography/Service_JLine.svg'
+        };
+
+
+        // The 'building' layer in the streets vector source contains building-height
+        // data from OpenStreetMap.
+        map.on('load', () => {
+            // Insert the layer beneath any symbol layer.
+            const layers = map.getStyle().layers;
+            map.addSource('bus', {
+                'type': 'vector',
+                'tiles': ['https://lacmta.github.io/vectortiles/bus/{z}/{x}/{y}.pbf']
+            });
+
+
+            map.addLayer({
+                'id': 'bus',
+                'type': 'line',
+                'source': 'bus',
+                'source-layer': 'flattened_bus', // This should be the name of the layer in your vector tiles
+                'layout': {},
+                'paint': {
+                    'line-color': '#E16710',
+                    'line-width': 2
+                }
+            });
+            let labelLayerId;
+            for (let i = 0; i < layers.length; i++) {
+                if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+                    labelLayerId = layers[i].id;
+                    break;
+                }
+            }
+            new mapboxglEsriSources.TiledMapService('imagery-source', map, {
+                url: 'https://tiles.arcgis.com/tiles/TNoJFjk1LsD45Juj/arcgis/rest/services/Map_RGB_Vector_Offset_RC5/MapServer'
+            })
+
+            map.addLayer({
+                id: 'imagery-layer',
+                type: 'raster',
+                source: 'imagery-source'
+            })
+            // Get the current URL
+            let currentUrl = new URL(window.location.href);
+
+            // Get the route code from the URL parameters
+            let routeCode = currentUrl.searchParams.get("route");
+            let socket;
+
+            if (routeCode) {
+                // If route code is present, use it in the WebSocket URL
+                socket = new WebSocket(`wss://api.metro.net/ws/LACMTA/vehicle_positions/${routeCode}`);
+            } else {
+                // If route code is not present, default to the original WebSocket URL
+                socket = new WebSocket('wss://api.metro.net/ws/LACMTA/vehicle_positions');
+            }
+
+            // Connection opened
+            socket.addEventListener('open', function (event) {
+                console.log('WebSocket is open now.');
+            });
+
+            // Listen for messages
+            socket.addEventListener('message', function (event) {
+                console.log('Message from server: ', event.data);
+                let data = JSON.parse(event.data);
+                if (data) {
+                    try {
+                        // Assuming you have a function to process the data
+                        fetchData(data);
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+            });
+
+            // Connection closed
+            socket.addEventListener('close', function (event) {
+                console.log('WebSocket is closed now.');
+            });
+
+            // Connection error
+            socket.addEventListener('error', function (event) {
+                console.log('WebSocket error: ', event);
+            });
+
+            // Declare and initialize the popups object
+            let popups = {};
+
+
+
+            function handleError(error) {
+                if (error instanceof TypeError) {
+                    document.getElementById('loading').innerHTML = "We're experiencing technical difficulties with our data. We're attempting to reload the data. Please wait<span class='dot1'>.</span><span class='dot2'>.</span><span class='dot3'>.</span>";
+                    console.error('TypeError caught: ', error);
+                    // Retry loading data
+                    fetchData();
+                } else if (error instanceof SyntaxError) {
+                    document.getElementById('loading').innerHTML = "We're currently facing some technical issues. Our team is working on it. Please try again later.";
+                } else if (error instanceof ReferenceError) {
+                    document.getElementById('loading').innerHTML = "We're unable to find some necessary information. Please try again later.";
+                } else {
+                    document.getElementById('loading').innerHTML = `We're experiencing unexpected issues: ${error.message}. Our team is looking into it. Please try again later.`;
+                }
+            }
+
+            //////////////////////////
+            function getFeaturesFromData(data) {
+                let features;
+                if (data && data.features) {
+                    features = Array.isArray(data.features) ? data.features : Object.values(data.features);
+                } else if (data && Object.keys(data).length > 0) {
+                    const routeData = data[Object.keys(data)[0]];
+                    if (routeData && routeData.features) {
+                        features = Array.isArray(routeData.features) ? routeData.features : Object.values(routeData.features);
+                    }
+                }
+
+                if (!features) {
+                    throw new Error('The API response does not have a features property');
+                }
+
+                // Filter out data that does not have valid latitude and longitude values
+                features = features.filter(feature => {
+                    const coordinates = feature.geometry.coordinates;
+                    return Array.isArray(coordinates) && coordinates.length === 2 && !isNaN(coordinates[0]) && !isNaN(coordinates[1]);
+                });
+
+                return features;
+            }
+            let intervalId;
+            function calculateBounds(features) {
+                return features.reduce((bounds, feature) => {
+                    const coordinates = feature.geometry.coordinates;
+                    if (Array.isArray(coordinates) && coordinates.length === 2 && !isNaN(coordinates[0]) && !isNaN(coordinates[1])) {
+                        return bounds.extend(coordinates);
+                    } else {
+                        return bounds;
+                    }
+                }, new maplibregl.LngLatBounds(features[0].geometry.coordinates, features[0].geometry.coordinates));
+            }
+
+            function fetchData(route = 2) {
+                const currentUrl = new URL(window.location.href);
+                const routeCode = route || currentUrl.searchParams.get("route");
+                currentRoute = routeCode;
+                const apiUrl = routeCode
+                    ? `https://api.metro.net/LACMTA/vehicle_positions/route_code/${routeCode}?format=geojson`
+                    : 'https://api.metro.net/LACMTA/vehicle_positions?format=geojson';
+                return Promise.all([
+                    fetch(apiUrl).then(response => response.json()),
+                ])
+                    .then(([data1]) => {
+                        console.log(data1); // Keep this line to inspect the API response
+
+                        const features = getFeaturesFromData(data1);
+                        const data = { features: [...features] };
+
+                        clearTimeout(timer);
+                        let newVehicleIds = new Set(data.features.map(vehicle => vehicle.properties.vehicle_id));
+
+                        removeOldMarkers(newVehicleIds, data);
+                        processVehicleData(data, features);
+                        updateMap(features); // This will now also calculate bounds and zoom map
+                        updateUI();
+
+                    })
+                    .catch(error => {
+                        handleError(error);
+                    });
+            }
+
+            function removeOldMarkers(newVehicleIds, data) {
+                if (data.features.length > 0) {
+                    for (let vehicle_id in markers) {
+                        if (!newVehicleIds.has(vehicle_id)) {
+                            markers[vehicle_id].remove();
+                            delete markers[vehicle_id];
+                        }
+                    }
+                }
+            }
+
+            function processVehicleData(data, features) {
+                data.features.filter(vehicle => vehicle.properties && vehicle.properties.trip_id).forEach(vehicle => {
+                    if (markers[vehicle.properties.vehicle_id]) {
+                        updateExistingMarker(vehicle);
+                    } else {
+                        createNewMarker(vehicle, features);
+                    }
+                });
+            }
+
+            function updateExistingMarker(vehicle) {
+                let currentCoordinates = markers[vehicle.properties.vehicle_id].getLngLat();
+
+                if (vehicle.geometry && vehicle.geometry.coordinates) {
+                    let diffLng = vehicle.geometry.coordinates[0] - currentCoordinates.lng;
+                    let diffLat = vehicle.geometry.coordinates[1] - currentCoordinates.lat;
+                    let distance = Math.sqrt(diffLng * diffLng + diffLat * diffLat);
+
+                    let steps = 9000 / 60; // 60 frames per second
+
+                    if (distance > 0.001) { // Adjust this value as needed
+                        let lngStep = diffLng / steps;
+                        let latStep = diffLat / steps;
+
+                        if (vehicle.properties) {
+                            markers[vehicle.properties.vehicle_id].properties.Heading = vehicle.properties.position_bearing;
+                        }
+
+                        let i = 0;
+                        function animateMarker() {
+                            if (i <= steps) {
+                                let progress = i / steps;
+                                let easedProgress = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+                                markers[vehicle.properties.vehicle_id].setLngLat([
+                                    currentCoordinates.lng + easedProgress * diffLng,
+                                    currentCoordinates.lat + easedProgress * diffLat
+                                ]);
+
+                                requestAnimationFrame(animateMarker);
+                            }
+
+                            i++;
+                        }
+                        animateMarker();
+                    }
+
+                    if (vehicle.properties) {
+                        let newTimestamp = vehicle.properties.timestamp;
+                        markers[vehicle.properties.vehicle_id].timestamp = newTimestamp;
+                    }
+                }
+            }
+
+            function createNewMarker(vehicle, features) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'wrapper';
+                const el = document.createElement('div');
+                el.className = 'marker';
+
+                const iconUrl = 'https://raw.githubusercontent.com/LACMTA/metro-iconography/main/Arrow.svg';
+                el.style.background = `url(${iconUrl}) no-repeat center/cover`;
+
+                const heading = vehicle.properties.position_bearing;
+                wrapper.style.transform = `rotateZ(${heading}deg)`;
+
+                map.triggerRepaint();
+
+                el.style.backgroundRepeat = 'no-repeat';
+                el.style.backgroundSize = 'cover';
+                el.style.backgroundPosition = 'center';
+                el.style.backgroundColor = 'white';
+                el.style.borderRadius = '50%';
+                el.style.cursor = 'pointer';
+
+                const zoom = map.getZoom();
+                const size = zoom >= 15 ? 40 : 40 * 0.5; // Increased size to 40px
+
+                el.style.width = `${size}px`;
+                el.style.height = `${size}px`;
+
+                wrapper.appendChild(el);
+
+                const popup = new maplibregl.Popup()
+                    .setHTML(`
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <span><b>${vehicle.properties.route_code}</b></span>
+    </div>
+    Data from ${new Date(vehicle.properties.timestamp * 1000).toLocaleTimeString()}`);
+
+                const marker = new maplibregl.Marker({ element: wrapper })
+                    .setLngLat(vehicle.geometry.coordinates)
+                    .setPopup(popup) // Set the popup
+                    .addTo(map);
+
+                marker.bearing = vehicle.properties.position_bearing;
+                marker.properties = {
+                    vehicle_id: vehicle.properties.vehicle_id,
+                    Heading: vehicle.properties.position_bearing
+                };
+                marker.timestamp = vehicle.properties.timestamp;
+                marker.route_code = vehicle.properties.route_code;
+
+                markers[vehicle.properties.vehicle_id] = marker;
+                updateMarkerRotations();
+
+                const feature = {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [vehicle.geometry[0], vehicle.geometry[1]]
+                    },
+                    properties: {
+                        vehicle_id: vehicle.properties.vehicle_id,
+                        Heading: vehicle.properties.position_bearing
+
+                    }
+                };
+                features.push(feature);
+            }
+
+            function updateMap(features) {
+                map.getSource('vehicles').setData({
+                    type: 'FeatureCollection',
+                    features: features
+                });
+                // Calculate bounds and zoom map after markers are rendered
+                if (!hasAdjustedBounds) {
+                    const bounds = calculateBounds(features);
+                    map.fitBounds(bounds, { padding: 70 });
+                }
+            }
+
+            function updateUI() {
+                const now = new Date();
+                const updateTimeDiv = document.getElementById('update-time');
+                updateTimeDiv.textContent = `Updated at ${now.toLocaleTimeString()}`;
+                updateTimeDiv.style.fontSize = '12px';
+
+                let pst = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+                let hour = pst.getHours();
+
+                if (Object.keys(markers).length > 1) {
+                    hideLoadingDiv();
+                }
+            }
+
+            function handleError(error) {
+                console.error('==error==');
+                console.error(error);
+                document.getElementById('loading').style.display = 'block';
+                if (error instanceof TypeError) {
+                    document.getElementById('loading').innerHTML = "We're experiencing technical difficulties with our data. We're attempting to reload the data. Please wait<span class='dot1'>.</span><span class='dot2'>.</span><span class='dot3'>.</span>";
+                    console.error('TypeError caught: ', error);
+                    // Retry loading data
+                    fetchData();
+                } else if (error instanceof SyntaxError) {
+                    document.getElementById('loading').innerHTML = "We're currently facing some technical issues. Our team is working on it. Please try again later.";
+                } else if (error instanceof ReferenceError) {
+                    document.getElementById('loading').innerHTML = "We're unable to find some necessary information. Please try again later.";
+                } else {
+                    document.getElementById('loading').innerHTML = `We're experiencing unexpected issues: ${error.message}. Our team is looking into it. Please try again later.`;
+                }
+            }
+
+            // Fetch data when the page loads
+            fetchData();
+            // Fetch data every 9000 milliseconds
+
+
+            function startFetchingData(route) {
+                // Clear the existing interval
+                if (intervalId) {
+                    clearInterval(intervalId);
+                }
+
+                // Start a new interval
+                intervalId = setInterval(() => {
+                    fetchData(route);
+                }, 9000);
+            }
+            let select = document.getElementById('route-select');
+            // Call startFetchingData whenever the route changes
+            async function clearAllMarkersAndFetchNew(route) {
+                // Clear all markers
+                for (let vehicle_id in markers) {
+                    markers[vehicle_id].remove();
+                    delete markers[vehicle_id];
+                }
+
+                // Fetch and process new data
+                const features = await fetchData(route);
+
+                // Update the map to fit the new markers
+                updateMap(features);
+
+                // Fit the map to the bounds of the new markers
+
+                const bounds = calculateBounds(features);
+                map.fitBounds(bounds, { padding: 70 });
+            }
+            select.addEventListener('change', function () {
+                const route = this.value;
+                if (route) {
+                    clearAllMarkersAndFetchNew(route);
+                }
+            });
+            //window.setInterval(fetchData, 9000);
+
+            // Define a function to hide the loading div
+            function hideLoadingDiv() {
+                document.getElementById('loading').style.display = 'none';
+            }
+
+
+            // Call the updateArrow function whenever the map moves
+            let features = [];
+            map.addSource('openmaptiles', {
+                url: `https://api.maptiler.com/tiles/v3/tiles.json?key=${MAPTILER_KEY}`,
+                type: 'vector',
+            });
+
+
+            map.addLayer({
+                'id': 'vehicles',
+                'type': 'symbol',
+                'source': 'vehicles',
+                'layout': {
+                    'icon-image': 'rail',
+                    'icon-allow-overlap': true,
+                    'icon-ignore-placement': true
+                }
+            });
+            map.addLayer(
+                {
+                    'id': '3d-buildings',
+                    'source': 'openmaptiles',
+                    'source-layer': 'building',
+                    'type': 'fill-extrusion',
+                    'minzoom': 14,
+                    'paint': {
+                        'fill-extrusion-color': [
+                            'interpolate',
+                            ['linear'],
+                            ['get', 'render_height'], 0, 'lightgray', 200, 'hsl(38, 28%, 77%)', 400, 'hsl(38, 28%, 77%)'
+                        ],
+                        'fill-extrusion-opacity': 0.5,
+                        'fill-extrusion-height': [
+                            'interpolate',
+                            ['linear'],
+                            ['zoom'],
+                            15,
+                            0,
+                            16,
+                            ['get', 'render_height']
+                        ],
+                        'fill-extrusion-base': ['case',
+                            ['>=', ['get', 'zoom'], 16],
+                            ['get', 'render_min_height'], 0
+                        ]
+                    }
+                },
+                labelLayerId
+            );
+
+        });
+
+        // Add navigation controls to the top-left corner of the map
+        map.addControl(new maplibregl.NavigationControl(), 'top-left');
+        // Create a home button
+        class HomeControl {
+            onAdd(map) {
+                this.map = map;
+                this.container = document.createElement('div');
+                this.container.className = 'maplibregl-ctrl';
+                const button = document.createElement('button');
+                button.className = 'maplibregl-ctrl-icon home-icon'; // Add 'home-icon' class
+                button.innerHTML = '<i class="fas fa-home"></i>';
+                button.addEventListener('click', () => {
+                    this.map.flyTo({
+                        center: [-118.25133692966446, 34.05295151499077],
+                        zoom: 9,
+                        pitch: 20,
+                        bearing: 0
+                    });
+                });
+                this.container.appendChild(button);
+                return this.container;
+            }
+
+            onRemove() {
+                this.container.parentNode.removeChild(this.container);
+                this.map = undefined;
+            }
+        }
+
+        window.onload = function () {
+            const legend = document.getElementById('legend');
+            const toggleLegend = document.getElementById('toggle-legend');
+
+            if (legend && toggleLegend) {
+                legend.addEventListener('click', function () {
+                    this.classList.toggle('hidden');
+
+                    // Change the icon based on the visibility
+                    toggleLegend.innerHTML = this.classList.contains('hidden') ? '<i class="fas fa-chevron-right"></i>' : '<i class="fas fa-chevron-left"></i>';
+                });
+            } else {
+                console.error('Element not found');
+            }
+        };
+        function defineDefaultValue() {
+            let currentUrl = new URL(window.location.href);
+            let thisrouteCode = currentUrl.searchParams.get("route");
+            console.log(thisrouteCode);
+            if (thisrouteCode != null) {
+                let buttonElement = document.querySelector('.choices__button'); // Select the button element
+                if (buttonElement) {
+                    buttonElement.setAttribute('data-value', thisrouteCode); // Set the data-value attribute to the route code
+
+                }
+                return thisrouteCode;
+            }
+            else {
+                return 'Select a route';
+            }
+        }
+        function createRouteSelect(map) {
+            const select = document.getElementById('route-select');
+            let defaultValue = defineDefaultValue();
+
+            // Add a placeholder option
+            const placeholderOption = document.createElement('option');
+            placeholderOption.value = '';
+            placeholderOption.text = defaultValue;
+            placeholderOption.selected = true;
+            placeholderOption.disabled = true;
+            select.appendChild(placeholderOption);
+
+            fetch('https://api.metro.net/LACMTA/vehicle_positions/route_code')
+                .then(response => response.json())
+                .then(routes => {
+                    routes.forEach(route => {
+                        const option = document.createElement('option');
+                        option.value = route;
+                        option.text = route;
+                        select.appendChild(option);
+                    });
+                })
+                .then(() => {
+                    const choices = new Choices('#route-select', {
+                        removeItemButton: true,
+                        searchEnabled: true,
+                        placeholder: true,
+                    });
+
+                    select.addEventListener('change', function () {
+                        const route = this.value;
+                        if (route) {
+                            // Assuming that the route data is added to the map as a layer and a source
+                            if (map.getLayer('route')) {
+                                map.removeLayer('route');
+                            }
+                            if (map.getSource('route')) {
+                                map.removeSource('route');
+                            }
+
+                            const apiUrl = `https://api.metro.net/LACMTA/vehicle_positions/route_code/${route}?format=geojson`;
+                            // Fetch the new data and add it to the map
+                            fetch(apiUrl)
+                                .then(response => response.json())
+                                .then(data => {
+                                    const routeData = route in data ? data[route] : null;
+                                    if (routeData) {
+                                        map.addSource('route', {
+                                            type: 'geojson',
+                                            data: routeData
+                                        });
+
+                                        map.addLayer({
+                                            id: 'route',
+                                            type: 'line',
+                                            source: 'route',
+                                            layout: {},
+                                            paint: {
+                                                'line-color': '#888',
+                                                'line-width': 8
+                                            }
+                                        });
+                                    } else {
+                                        console.error('No data for route:', route);
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
+                        }
+                    });
+                });
+        }
+
+        // Call the function
+        createRouteSelect(map);
+
+    </script>
+    <div id="update-time"></div>
+
+    <div id="legend"
+        style="background-color: #fff; padding: 10px; position: absolute; bottom: 50px; right: 10px; z-index: 1; transition: right 0.5s;">
+        <h4><span class="beta">Beta</span> Live Metro Bus Vehicles</h4>
+        <!-- route selection -->
+
+        <div style="display: flex; align-items: center;">
+            <img src="https://lacmta.github.io/metro-iconography/Arrow.svg" width="20" height="20"
+                style="transform: rotate(-90deg); margin-right: 10px; margin-left: 10px;">
+            Bus
+        </div>
+        <div style="display: flex; align-items: center;">
+            <span style="background-color: #e16710; display: inline-block; width: 10px; height: 4px;"></span>
+            <span
+                style="background-color: #e16710; display: inline-block; width: 10px; height: 4px;margin-right: 8px;"></span>
+            Bus Route
+        </div>
+
+
+        <div style="display: flex; justify-content: flex-end; align-items: center;">
+            <a class="issues" href="https://github.com/LACMTA/realtime-map" target="_blank"
+                style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                <i class="fab fa-github" style="margin-right: 5px;"></i>
+                <a href="https://github.com/LACMTA/realtime-map/issues" style="text-decoration: none;"
+                    target="_blank">Spot an issue?</a>
+            </a>
+        </div>
+        <button id="toggle-legend"><i class="fas fa-chevron-left"></i></button>
+    </div>
+
+
+    </div>
+</body>
+<script>
+    // Add the home control to the map
+    // Assuming your vehicle layer is named 'vehicle-layer'
+    // Create a mapping from route codes to route names
+    const routeNames = {
+        '801': 'A Line',
+        '802': 'B Line',
+        '803': 'C Line',
+        '804': 'L Line',
+        '806': 'E Line',
+        '807': 'K Line',
+        '805': 'D Line',
+        '901': 'G Line',
+        '910': 'J Line'
+
+    };
+
+    map.addControl(new HomeControl(), 'top-left');
+    map.on('zoom', function () {
+        // Get the current zoom level
+        const zoom = map.getZoom();
+
+        // Calculate the size of the marker and the arrow based on the zoom level
+        const markerSize = zoom >= 15 ? 32 : 32 * 0.5;
+        const arrowSize = zoom >= 15 ? 5 : 5 * 0.5;
+
+        // Update the size of each marker
+        for (const vehicleId in markers) {
+            const marker = markers[vehicleId];
+            const el = marker.getElement();
+
+            // Update the size of the marker
+            el.style.width = `${markerSize}px`;
+            el.style.height = `${markerSize}px`;
+        }
+    });
+    map.on('rotate', function () {
+        updateMarkerRotations();
+    });
+    function updateMarkerRotations() {
+        // Get the map's current bearing
+        const mapBearing = map.getBearing();
+
+        // Iterate over each marker
+        for (const vehicleId in markers) {
+            const marker = markers[vehicleId];
+            const el = marker.getElement().querySelector('.marker'); // This is the marker element
+
+            // Get the bearing from the marker object
+            const bearing = marker.properties.Heading;
+
+            // Adjust the bearing by 180 degrees
+            const adjustedBearing = (bearing + 180) % 360;
+
+            // Calculate the final bearing based on the map's bearing
+            const finalBearing = (adjustedBearing - mapBearing);
+
+            // Apply the necessary transformations for correct placement and rotation
+            el.style.transform = `translate(-50%, -50%) rotateZ(${finalBearing}deg)`;
+
+            // Assuming `marker.popup` is the popup for the vehicle
+
+        }
+    }
+    // Bounding box coordinates for Los Angeles County
+    const LA_COUNTY_BOUNDS = {
+        north: 34.8233,
+        south: 33.7037,
+        west: -118.6682,
+        east: -117.6462
+    };
+    // Check if Geolocation API is available
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            hasAdjustedBounds = true;
+            // Check if the user is in Los Angeles County
+            if (lat >= LA_COUNTY_BOUNDS.south && lat <= LA_COUNTY_BOUNDS.north && lng >= LA_COUNTY_BOUNDS.west && lng <= LA_COUNTY_BOUNDS.east) {
+                // Create a new HTML element for the user's location
+                var userLocation = document.createElement("div");
+                userLocation.id = "userLocation";
+                userLocation.className = "pulsatingIcon";
+
+                // Add the user's location to the map
+                // Create a new marker
+                let marker = new maplibregl.Marker(userLocation)
+                    .setLngLat([lng, lat])
+
+                // Zoom in to the user's location
+                map.flyTo({ center: [lng, lat], zoom: 12 });
+
+                // Add a circle to represent the accuracy of the geolocation
+                var accuracy = position.coords.accuracy;
+                map.addSource('circle', {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'FeatureCollection',
+                        'features': [{
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [lng, lat]
+                            }
+                        }]
+                    }
+                });
+                map.addLayer({
+                    'id': 'circle',
+                    'type': 'circle',
+                    'source': 'circle',
+                    'paint': {
+                        'circle-radius': accuracy,
+                        'circle-color': '#007cbf',
+                        'circle-opacity': 0.3
+                    }
+                });
+            }
+        });
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+    // Add geolocate control to the map.
+    var geolocate = new maplibregl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+        },
+        trackUserLocation: true
+    });
+
+    map.addControl(geolocate, 'top-left');
+
+    // Set the map's center to the user's location once it's available
+    geolocate.on('geolocate', function (e) {
+        map.flyTo({ center: [e.coords.longitude, e.coords.latitude], zoom: 14 });
+    });
+</script>
+
+</html>
