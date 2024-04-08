@@ -539,7 +539,7 @@ function createNewMarker(vehicle, features) {
     el.setAttribute('data-route', routeCode);
     el.setAttribute('data-trip', tripId);
     el.setAttribute('data-mode', isBus ? 'bus' : 'rail')
-	el.setAttribute('data-time-stamp', vehicle.properties.timestamp);
+	el.setAttribute('data-timestamp', vehicle.properties.timestamp);
 
 	el.style.background = `url(${iconUrl}) no-repeat center/cover`;
 
