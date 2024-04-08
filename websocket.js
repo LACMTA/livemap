@@ -684,7 +684,7 @@ map.on('zoom', function() {
     const zoom = map.getZoom();
 
     // Calculate the size of the marker and the arrow based on the zoom level
-    const markerSize = zoom >= 15 ? 32 : 32 * 0.75;
+    const markerSize = zoom >= 15 ? 32 : 32 * 0.55;
 
     // Update the size of each marker
     for (const vehicleId in markers) {
