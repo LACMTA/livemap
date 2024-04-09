@@ -26,7 +26,7 @@ body {
 
 #legend-mini {
     position: relative;
-    bottom: 26px;
+    bottom: 56px;
     width: 240px;
     height: 70px;
     
@@ -68,6 +68,7 @@ body {
 
 #legend {
     padding: 16px;
+	margin-bottom: 10px;
 }
 
 #legend-close {
@@ -102,7 +103,6 @@ body {
     flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
-
     color: #fff;
     background-color: #FF4500;
     font-weight: 700;
@@ -114,6 +114,22 @@ body {
     border-radius: 4px;
 }
 
+.beta-mini{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+	padding:2px;
+    color: #fff;
+    background-color: #FF4500;
+    font-weight: 700;
+    font-size: 10px;
+    width: 23px;
+    height: 14px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 4px;
+}
 #legend-description {
     font-size: 14px;
     font-weight: 400;
