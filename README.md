@@ -1,6 +1,6 @@
-# Metro Realtime Map
+# Metro Live Map
 
-Realtime Map is a web application that provides real-time updates of vehicle locations on a map.
+The Metro Live Map is a web application that provides real-time updates of vehicle locations on a map.
 
 ## Features
 
@@ -11,7 +11,6 @@ Realtime Map is a web application that provides real-time updates of vehicle loc
 ## Tools Used
 
 - [MapLibre](https://maplibre.org): An open-source fork of Mapbox GL JS, used for the interactive map interface.
-- [Esri Leaflet](https://esri.github.io/esri-leaflet/): A lightweight set of tools for working with ArcGIS services and data.
 - [api.metro.net](http://api.metro.net): Provides the real-time vehicle location data.
 - [FontAwesome](https://fontawesome.com): A library for scalable vector icons that can be customized with CSS.
 - [Google Fonts](https://fonts.google.com): Provides the typography for the project.
