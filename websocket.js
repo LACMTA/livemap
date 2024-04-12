@@ -212,22 +212,6 @@ class HomeControl {
     }
 }
 
-window.onload = function() {
-    const legend = document.getElementById('legend');
-    const toggleLegend = document.getElementById('toggle-legend');
-
-    if (legend && toggleLegend) {
-        legend.addEventListener('click', function() {
-            this.classList.toggle('hidden');
-
-            // Change the icon based on the visibility
-            toggleLegend.innerHTML = this.classList.contains('hidden') ? '<i class="fas fa-chevron-left"></i>' : '<i class="fas fa-chevron-right"></i>';
-        });
-    } else {
-        console.error('Element not found');
-    }
-};
-
 let lastProcessedTime = 0;
 const throttleInterval = 5000; // Adjust this value to change the throttle time
 
