@@ -1,4 +1,10 @@
-const ESRI_KEY =  "AAPKccc2cf38fecc47649e91529acf524abflSSkRTjWwH0AYmZi8jaRo-wdpcTf6z67CLCkOjVYlw3pZyUIF_Y4KGBndq35Y02z";
+// previous ESRI key set up on Albert's account
+//const ESRI_KEY = "AAPKccc2cf38fecc47649e91529acf524abflSSkRTjWwH0AYmZi8jaRo-wdpcTf6z67CLCkOjVYlw3pZyUIF_Y4KGBndq35Y02z";
+
+// current ESRI key set up on Nina's account
+const ESRI_KEY = "AAPKd8ea48d820b14262bd11d2d584502c01qtn6WSi6xsIYF5GHoPQl_GTT_oyAxq8z7HoptJtq1CNv3TkbvOkCkTU4wUHHsETK";
+
+
 const MAPTILER_KEY = "KydZlIiVFdYDFFfQ4QYq"
 const basemapEnum = "65aff2873118478482ec3dec199e9058";
 
