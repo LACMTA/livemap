@@ -325,15 +325,32 @@ function setupWebSocket(url, processData) {
 		}
 	};
 
-    // Handle visibility change
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden && pendingData) {
-            // The tab has become visible again
-            // Process the pending data
-            processAndUpdate(pendingData);
-            pendingData = null;
-        }
-    });
+		// Handle visibility change
+	document.addEventListener('visibilitychange', function() {
+		if (!document.hidden && pendingData) {
+			// The tab has become visible again
+			// Process the pending data
+			processAndUpdate(pendingData);
+			pendingData = null;
+
+			// Get all markers
+			let markers = document.querySelectorAll('[data-timestamp]');
+
+			// Get the current time
+			let now = Date.now();
+
+			// Loop through all markers
+			for (let i = 0; i < markers.length; i++) {
+				// Get the timestamp of the marker
+				let timestamp = parseInt(markers[i].getAttribute('data-timestamp'));
+
+				// If the marker is older than 1 minute, remove it
+				if (now - timestamp > 60 * 1000) {
+					markers[i].remove();
+				}
+			}
+		}
+	});
 
     // Function to clean up old data
     function cleanupData() {
@@ -354,16 +371,18 @@ function setupWebSocket(url, processData) {
 setupWebSocket("wss://api.metro.net/ws/LACMTA_Rail/vehicle_positions");
 setupWebSocket("wss://api.metro.net/ws/LACMTA/vehicle_positions/910,901");
 
-map.on('load', function() {
-    // Set up the WebSocket connection and the onmessage event handler here
-    setupWebSocket();
-    // Set the zoom level based on the screen width
-    if (screenWidth > 2000) { // Change 1440 to whatever width you consider "large"
-        map.setZoom(12); // Change 10 to the zoom level you want for large screens
-    } else {
-        map.setZoom(9); // Change 5 to the zoom level you want for smaller screens
-    }
+
+// Handle visibility change
+document.addEventListener('visibilitychange', function() {
+	if (!document.hidden && pendingData) {
+		// The tab has become visible again
+		// Process the pending data
+		processAndUpdate(pendingData);
+		pendingData = null;
+	}
 });
+
+
 
 function updateMap(features) {
 	if (!map.getSource('vehicles')) {
