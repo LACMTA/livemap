@@ -296,7 +296,6 @@ function setupWebSocket(url, processData) {
 		// Store the data with the current timestamp
 		dataStore[data.id] = {
 			data: data,
-			timestamp: Date.now()
 		};
 
 		// Filter data based on routeId if a filter function is provided
@@ -543,12 +542,14 @@ function createNewMarker(vehicle, features) {
         delete markers[vehicle.properties.vehicle_id];
     }
 
-	const el = document.createElement('div');
-	el.className = 'marker';
+    const el = document.createElement('div');
+    el.className = 'marker';
     el.setAttribute('data-route', routeCode);
     el.setAttribute('data-trip', tripId);
     el.setAttribute('data-mode', isBus ? 'bus' : 'rail')
-	el.setAttribute('data-timestamp', vehicle.properties.timestamp);
+    el.setAttribute('data-timestamp', vehicle.properties.timestamp);
+    el.setAttribute('data-vehicle-id', vehicle.properties.vehicle_id); // Add vehicle_id as a data attribute
+
 
 	el.style.background = `url(${iconUrl}) no-repeat center/cover`;
 
@@ -621,6 +622,7 @@ function cancelAnimationFrameForVehicle(vehicleId) {
         delete animations[vehicleId];
     }
 }
+
 function updateExistingMarker(vehicle,features) {
     const marker = markers[vehicle.properties.vehicle_id];
     let currentCoordinates = marker.getLngLat();
@@ -633,30 +635,24 @@ function updateExistingMarker(vehicle,features) {
         // Convert the distance from degrees to miles
         let distanceInMiles = distance * 69;
 
-        // If the distance is greater than 1.0 mile, remove the old marker and add a new one
-        if (distanceInMiles > 1.0) {
-            // Remove the old marker from the map and the markers object
-            marker.remove();
-            delete markers[vehicle.properties.vehicle_id];
-
-            // Add the new marker
-            createNewMarker(vehicle,features);
-            return;
-        }
-
         let steps = 60; // 60 frames per second
 
-        animateMarker(vehicle, diffLng, diffLat, steps, currentCoordinates).then(() => {
-            if (vehicle.properties) {
-                let newTimestamp = parseInt(vehicle.properties.timestamp);
-                let currentTimestamp = marker.timestamp;
-
-                marker.timestamp = newTimestamp;
-            }
-        });
+		animateMarker(vehicle, diffLng, diffLat, steps, currentCoordinates).then(() => {
+			if (vehicle.properties) {
+				let newTimestamp = parseInt(vehicle.properties.timestamp);
+				let currentTimestamp = marker.timestamp;
+	
+				marker.timestamp = newTimestamp;
+	
+				// Update the data-timestamp attribute of the marker's DOM element
+				let markerElement = document.querySelector(`.marker[data-vehicle-id="${vehicle.properties.vehicle_id}"]`); // Select the marker using vehicle_id
+				if (markerElement) {
+					markerElement.setAttribute('data-timestamp', newTimestamp);
+				}
+			}
+		});
     }
 
-    // updateMarkerRotations();
     updatePopup(vehicle);
 }
 
