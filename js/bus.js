@@ -554,7 +554,7 @@ function createNewMarker(vehicle, features) {
     }
 
     // Check the route code and set the icon URL accordingly
-    let iconUrl = isBus ? 'bus.svg' : 'rail.svg';
+    let iconUrl = isBus ? 'bus.svg' : 'bus.svg';
 
     if (existingMarker) {
         // If it exists, remove the existing marker from the map
@@ -567,7 +567,7 @@ function createNewMarker(vehicle, features) {
     el.className = 'marker';
     el.setAttribute('data-route', routeCode);
     el.setAttribute('data-trip', tripId);
-    el.setAttribute('data-mode', isBus ? 'bus' : 'rail')
+    el.setAttribute('data-mode', isBus ? 'bus' : 'brt')
     el.setAttribute('data-timestamp', vehicle.properties.timestamp);
     el.setAttribute('data-vehicle-id', vehicle.properties.vehicle_id); // Add vehicle_id as a data attribute
 
