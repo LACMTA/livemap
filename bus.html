@@ -262,15 +262,36 @@
             margin-bottom: 15px;
             text-align: center;
         }
+	.roundedBusButton {
+		font-family: sans-serif;
+		font-weight: 600;
+		font-style: normal;
+		background-color: #e1670f;
+		color: #fff;
+		text-align: center;
+		border-radius: .25rem; /* Smaller radius for a subtler effect */
+		padding: .15rem .25rem; /* Smaller padding */
+		font-size: 1rem; /* Smaller font size */
+		text-decoration: none;
+		min-width: 10px; /* Adjusted minimum width */
+	}
+	/* Target only the selected item with the custom class */
+	.choices__item roundedBusButton choices__item--selectable {
+    border-radius: 15px; /* Example of rounded corners for selected item */
+    background-color: #007bff !important; /* Change the background color for selected item */
+    color: white; /* Change the text color for selected item */
+    /* Add any other styles for the selected item */
+}
+
     </style>
+	<link rel="stylesheet" href="/styles/choices.min.css">
+	<link rel="stylesheet" href="styles/index-style.css">
+	<script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+	
 </head>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css">
-<link rel="stylesheet" href="styles/index-style.css">
-<script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
-<select id="route-select">
-</select>
+
 <div id="map"></div>
-<script src="js/bus.js"></script>
+
 <body>
     <div id="update-time"></div>
 
@@ -303,16 +324,8 @@
                     </div>
                 </div>
                 <hr>
-                <div id="legend-icons">
-                    <img src="https://lacmta.github.io/metro-iconography/Service_ALine.svg" alt="A Line icon" class="legend-icon-a">
-                    <img src="https://lacmta.github.io/metro-iconography/Service_BLine.svg" alt="B Line icon" class="legend-icon-b">
-                    <img src="https://lacmta.github.io/metro-iconography/Service_CLine.svg" alt="C Line icon" class="legend-icon-c">
-                    <img src="https://lacmta.github.io/metro-iconography/Service_DLine.svg" alt="D Line icon" class="legend-icon-d">
-                    <img src="https://lacmta.github.io/metro-iconography/Service_ELine2.svg" alt="E Line icon" class="legend-icon-e">
-                    <img src="https://lacmta.github.io/metro-iconography/Service_KLine.svg" alt="K Line icon" class="legend-icon-k">
-                    <img src="https://lacmta.github.io/metro-iconography/Service_GLine.svg" alt="G Line icon" class="legend-icon-g">
-                    <img src="https://lacmta.github.io/metro-iconography/Service_JLine.svg" alt="J Line icon" class="legend-icon-j">
-                </div>
+				<select id="route-select">
+				</select>
 
                 <div id="legend-share">
 					<a href="https://forms.office.com/g/nMMFuK5QYe" target="_blank">
@@ -333,6 +346,7 @@
     </div>
 
 </body>
+<script src="js/bus.js"></script>
 <script>
 
 </script>
