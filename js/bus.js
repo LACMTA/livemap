@@ -61,13 +61,14 @@ if (!zoom) {
 }
 let currentUrl = new URL(window.location.href);
 const routeDropdown = document.getElementById('route-select'); // Assuming the dropdown has this ID
-
+let globalRouteCode = '720'; // Default route code
 // Consolidated function to set and update routeCode
 function updateRouteCodeFromDropdownOrURL() {
     let newRouteCode = currentUrl.searchParams.get('route') || routeDropdown.value || '720'; // Default to '720' if no URL parameter or dropdown value
     routeCode = newRouteCode; // Update the global routeCode variable
     routeDropdown.value = newRouteCode; // Ensure dropdown reflects current routeCode
     history.pushState(null, '', `?route=${newRouteCode}`); // Optional: Update the URL
+	globalRouteCode = newRouteCode;
 }
 
 // Event listener for dropdown changes
@@ -121,8 +122,8 @@ map.on('load', () => {
 		'type': 'vector',
 		'tiles': ['https://lacmta.github.io/vectortiles/bus/{z}/{x}/{y}.pbf']
 	});
-
-
+	getUserLocation();
+	setupWebSocket("wss://api.metro.net/ws/LACMTA/vehicle_positions");
 	map.addLayer({
 		'id': 'bus',
 		'type': 'line',
@@ -268,7 +269,6 @@ function animateMarker(vehicle, diffLng, diffLat, steps, currentCoordinates) {
         animate();
     });
 }
-
 function setupWebSocket(url, processData) {
     let socket = new WebSocket(url);
     let dataStore = {}; // Now will store data categorized by route codes
@@ -280,14 +280,18 @@ function setupWebSocket(url, processData) {
         // Process the update
         let data = JSON.parse(event.data);
 
+        // Only process data for the globalRouteCode
+        if (data.routeCode !== globalRouteCode) {
+            return; // Skip processing if the data is not for the globalRouteCode
+        }
 
         // Initialize the route code category in dataStore if it doesn't exist
-        if (!dataStore[routeCode]) {
-            dataStore[routeCode] = {};
+        if (!dataStore[globalRouteCode]) {
+            dataStore[globalRouteCode] = {};
         }
 
         // Store the data with the current timestamp, categorized by route code
-        dataStore[routeCode][data.id] = {
+        dataStore[globalRouteCode][data.id] = {
             data: data,
             timestamp: currentTime
         };
@@ -321,6 +325,7 @@ function setupWebSocket(url, processData) {
     function cleanupData() {
         let now = Date.now();
         for (let routeCode in dataStore) {
+            if (routeCode !== globalRouteCode) continue; // Only clean up data for the globalRouteCode
             for (let id in dataStore[routeCode]) {
                 if (now - dataStore[routeCode][id].timestamp > 120000) { // 2 minutes
                     delete dataStore[routeCode][id];
@@ -332,8 +337,6 @@ function setupWebSocket(url, processData) {
     setInterval(cleanupData, 60000);
 }
 
-
-setupWebSocket("wss://api.metro.net/ws/LACMTA/vehicle_positions");
 
 
 // Handle visibility change
@@ -699,67 +702,72 @@ function updateMarkerRotations() {
 map.addControl(new HomeControl(), 'top-left');
 
 // Check if Geolocation API is available
-if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-        let lat = position.coords.latitude;
-        let lng = position.coords.longitude;
+function getUserLocation(){
+	// Set the map's center to the user's location once it's available
 
-        // Check if the user is in Los Angeles County
-        if (lat >= LA_COUNTY_BOUNDS.south && lat <= LA_COUNTY_BOUNDS.north && lng >= LA_COUNTY_BOUNDS.west && lng <= LA_COUNTY_BOUNDS.east) {
-            // Create a new HTML element for the user's location
-            let userLocation = document.createElement("div");
-            userLocation.id = "userLocation";
-            userLocation.className = "pulsatingIcon";
+	if ("geolocation" in navigator) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			let lat = position.coords.latitude;
+			let lng = position.coords.longitude;
+	
+			// Check if the user is in Los Angeles County
+			if (lat >= LA_COUNTY_BOUNDS.south && lat <= LA_COUNTY_BOUNDS.north && lng >= LA_COUNTY_BOUNDS.west && lng <= LA_COUNTY_BOUNDS.east) {
+				// Create a new HTML element for the user's location
+				let userLocation = document.createElement("div");
+				userLocation.id = "userLocation";
+				userLocation.className = "pulsatingIcon";
+	
+				// Add the user's location to the map
+				// Create a new marker
+				let marker = new maplibregl.Marker(userLocation)
+					.setLngLat([lng, lat])
+	
+				// Zoom in to the user's location
+				map.flyTo({center: [lng, lat], zoom: 12});
+	
+				// Add a circle to represent the accuracy of the geolocation
+				let accuracy = position.coords.accuracy;
+				map.addSource('circle', {
+					'type': 'geojson',
+					'data': {
+						'type': 'FeatureCollection',
+						'features': [{
+							'type': 'Feature',
+							'geometry': {
+								'type': 'Point',
+								'coordinates': [lng, lat]
+							}
+						}]
+					}
+				});
+				map.addLayer({
+					'id': 'circle',
+					'type': 'circle',
+					'source': 'circle',
+					'paint': {
+						'circle-radius': accuracy,
+						'circle-color': '#007cbf',
+						'circle-opacity': 0.3
+					}
+				});
+			}
+		});
+		} else {
+		console.log("Geolocation is not supported by this browser.");
+		}
+		// Add geolocate control to the map.
+		let geolocate = new maplibregl.GeolocateControl({
+		positionOptions: {
+			enableHighAccuracy: true
+		},
+		trackUserLocation: true
+	});
+	geolocate.on('geolocate', function(e) {
+		map.flyTo({center: [e.coords.longitude, e.coords.latitude], zoom: 14});
+	});
+	
+	map.addControl(geolocate, 'top-left');
 
-            // Add the user's location to the map
-            // Create a new marker
-            let marker = new maplibregl.Marker(userLocation)
-                .setLngLat([lng, lat])
+}
 
-            // Zoom in to the user's location
-            map.flyTo({center: [lng, lat], zoom: 12});
 
-            // Add a circle to represent the accuracy of the geolocation
-            let accuracy = position.coords.accuracy;
-            map.addSource('circle', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'FeatureCollection',
-                    'features': [{
-                        'type': 'Feature',
-                        'geometry': {
-                            'type': 'Point',
-                            'coordinates': [lng, lat]
-                        }
-                    }]
-                }
-            });
-            map.addLayer({
-                'id': 'circle',
-                'type': 'circle',
-                'source': 'circle',
-                'paint': {
-                    'circle-radius': accuracy,
-                    'circle-color': '#007cbf',
-                    'circle-opacity': 0.3
-                }
-            });
-        }
-    });
-    } else {
-    console.log("Geolocation is not supported by this browser.");
-    }
-    // Add geolocate control to the map.
-    let geolocate = new maplibregl.GeolocateControl({
-    positionOptions: {
-        enableHighAccuracy: true
-    },
-    trackUserLocation: true
-});
-
-map.addControl(geolocate, 'top-left');
-
-// Set the map's center to the user's location once it's available
-geolocate.on('geolocate', function(e) {
-    map.flyTo({center: [e.coords.longitude, e.coords.latitude], zoom: 14});
-});
