@@ -25,7 +25,7 @@ const LA_COUNTY_BOUNDS = {
 let features = [];
 // Declare a global variable to store the route shapes data
 let routeShapesData;
-
+let routeCodesArray = [];
 // Create a map of vehicle IDs to markers
 let markers = {};
 
@@ -61,22 +61,57 @@ if (!zoom) {
 }
 let currentUrl = new URL(window.location.href);
 const routeDropdown = document.getElementById('route-select'); // Assuming the dropdown has this ID
-let globalRouteCode = '720'; // Default route code
-// Consolidated function to set and update routeCode
+
+let routeDropdownChoices; // Step 1: Declare at the top level
+
+fetch('https://api.metro.net/LACMTA/route_overview')
+  .then(response => response.json())
+  .then(data => {
+    const choices = data.map(route => ({
+      value: route.route_code,
+      label: route.route_code
+    }));
+	// Step 1: Extract the route parameter from the URL
+	const urlParams = new URLSearchParams(window.location.search);
+	const selectedRoute = urlParams.get('route'); // Assuming 'route' is the name of the parameter
+
+	// Step 2: Set the current selection of the routeDropdownChoices
+
+	routeDropdownChoices = new Choices('#route-select', {
+		choices,
+		removeItemButton: true,
+		classNames: {
+		  item: 'choices__item roundedBusButton', // Add 'roundedBusButton' class to items
+		  choice: 'choices__choice roundedBusButton', // Add 'roundedBusButtonFull' class to choices
+		},
+	  });
+	  
+	  if (selectedRoute) {
+		routeDropdownChoices.setChoiceByValue(selectedRoute);
+	  }
+  })
+  .catch(error => console.error('Error fetching route data:', error));
+
 function updateRouteCodeFromDropdownOrURL() {
-    let newRouteCode = currentUrl.searchParams.get('route') || routeDropdown.value || '720'; // Default to '720' if no URL parameter or dropdown value
-    routeCode = newRouteCode; // Update the global routeCode variable
-    routeDropdown.value = newRouteCode; // Ensure dropdown reflects current routeCode
-    history.pushState(null, '', `?route=${newRouteCode}`); // Optional: Update the URL
-	globalRouteCode = newRouteCode;
+    let currentUrl = new URL(window.location.href);
+    // Ensure routeDropdownChoices is initialized before accessing its properties
+    let newRouteCode = currentUrl.searchParams.get('route') || (routeDropdownChoices ? routeDropdownChoices.passedElement.element.value : '') || '720';
+    window.routeCode = newRouteCode;
+    if (routeDropdownChoices) { // Step 3: Check if initialized
+        routeDropdownChoices.setValue([newRouteCode]);
+    }
+    history.pushState(null, '', `?route=${newRouteCode}`);
 }
 
-// Event listener for dropdown changes
+// Assuming routeDropdown is defined and accessible
 routeDropdown.addEventListener('change', () => {
-    currentUrl.searchParams.set('route', routeDropdown.value); // Update currentUrl object
-    updateRouteCodeFromDropdownOrURL(); // Update routeCode and URL
+    let currentUrl = new URL(window.location.href);
+    if (routeDropdownChoices) { // Check if initialized
+        currentUrl.searchParams.set('route', routeDropdownChoices.getValue(true));
+        window.location.href = currentUrl.href;
+        updateRouteCodeFromDropdownOrURL();
+    }
 });
-
 // Initial setup to reflect the current URL's route parameter in the dropdown and set routeCode
 function initialize() {
     if (currentUrl.searchParams.get('route')) {
@@ -122,8 +157,8 @@ map.on('load', () => {
 		'type': 'vector',
 		'tiles': ['https://lacmta.github.io/vectortiles/bus/{z}/{x}/{y}.pbf']
 	});
-	getUserLocation();
-	setupWebSocket("wss://api.metro.net/ws/LACMTA/vehicle_positions");
+	postMapSetup();
+
 	map.addLayer({
 		'id': 'bus',
 		'type': 'line',
@@ -234,6 +269,11 @@ let lastProcessedTime = 0;
 const throttleInterval = 5000; // Adjust this value to change the throttle time
 
 // Handle the connection opening
+
+function postMapSetup(){
+	console.log('Map setup complete');
+	console.log(routeCodesArray);
+}
 // Handle incoming messages
 
 let animations = {};
@@ -269,6 +309,7 @@ function animateMarker(vehicle, diffLng, diffLat, steps, currentCoordinates) {
         animate();
     });
 }
+
 function setupWebSocket(url, processData) {
     let socket = new WebSocket(url);
     let dataStore = {}; // Now will store data categorized by route codes
@@ -280,35 +321,37 @@ function setupWebSocket(url, processData) {
         // Process the update
         let data = JSON.parse(event.data);
 
-        // Only process data for the globalRouteCode
-        if (data.routeCode !== globalRouteCode) {
-            return; // Skip processing if the data is not for the globalRouteCode
-        }
-
         // Initialize the route code category in dataStore if it doesn't exist
-        if (!dataStore[globalRouteCode]) {
-            dataStore[globalRouteCode] = {};
+        if (!dataStore[routeCode]) {
+            dataStore[routeCode] = {};
         }
 
         // Store the data with the current timestamp, categorized by route code
-        dataStore[globalRouteCode][data.id] = {
+        dataStore[routeCode][data.id] = {
             data: data,
             timestamp: currentTime
         };
-
+		if (!routeCodesArray.includes(data.route_code)) {
+			routeCodesArray.push(data.route_code);
+			routeDropdownChoices.setChoices(routeCodesArray, 'value', 'label', false);
+		}
+		
+			
+		let routeCodeStr = routeCode.toString();
+		let filtered_data = data.route_code === routeCodeStr ? data : null;
         // Filter data based on routeId if a filter function is provided
         if (processData) {
-            data = processData(data);
+            data = processData(filtered_data);
         }
 
         // Adjusted to handle data based on route code
         if (isAnimating) {
-            pendingData = data; // Consider how to handle pendingData for different routes
+            pendingData = filtered_data; // Consider how to handle pendingData for different routes
         } else if (document.hidden) {
             cleanupData(); // Cleanup should also consider route codes
             pendingData = null;
         } else {
-            processAndUpdate(data); // Adjust processAndUpdate to handle route-specific data
+            processAndUpdate(filtered_data); // Adjust processAndUpdate to handle route-specific data
         }
 
         // UI updates remain the same
@@ -325,7 +368,6 @@ function setupWebSocket(url, processData) {
     function cleanupData() {
         let now = Date.now();
         for (let routeCode in dataStore) {
-            if (routeCode !== globalRouteCode) continue; // Only clean up data for the globalRouteCode
             for (let id in dataStore[routeCode]) {
                 if (now - dataStore[routeCode][id].timestamp > 120000) { // 2 minutes
                     delete dataStore[routeCode][id];
@@ -337,6 +379,8 @@ function setupWebSocket(url, processData) {
     setInterval(cleanupData, 60000);
 }
 
+
+setupWebSocket("wss://api.metro.net/ws/LACMTA/vehicle_positions");
 
 
 // Handle visibility change
@@ -369,6 +413,9 @@ function updateMap(features) {
 }
 
 function processAndUpdate(data) {
+	if (!data) {
+		return;
+	};
     // 1. Check if the data has 'vehicle' and 'vehicle.trip' properties
     if (!data.vehicle || !data.vehicle.trip) {
         return;
@@ -545,14 +592,16 @@ function createNewMarker(vehicle, features) {
 
     el.style.width = `${size}px`;
     el.style.height = `${size}px`;
-	let vehicleLabel = ['901', '910'].includes(vehicle.properties.route_code) ? 'Bus ID ' : 'Train Car #';
+	let vehicleLabel = 'Bus ID ';
 
     const popup = new maplibregl.Popup()
 	.setHTML(`
 	<div style="display: flex; align-items: center;justify-content:center;">
-		<img src="${routeIcons[vehicle.properties.route_code]}" style="width: 24px; height: 24px; border-radius: 50%;">
+		<img src="images/metro_logo_only_black.png" style="width: 24px; height: 24px; border-radius: 50%;">
 		<span></span>
 	</div>        
+	<div class="roundedBusButton" style="text-align: center;">${vehicle.properties.route_code}</div>
+
 	<div style="text-align: center;">${vehicleLabel}${vehicle.properties.vehicle_id}<br>
 
 	Data from ${new Date(vehicle.properties.timestamp * 1000).toLocaleTimeString()}</div>`);
@@ -638,14 +687,15 @@ function updatePopup(vehicle) {
 	let popup = marker.getPopup();
 	if (popup) {
 		// Determine the label based on the route code
-		let vehicleLabel = ['901', '910'].includes(markers[vehicle.properties.vehicle_id].route_code) ? 'Bus ID ' : 'Train Car #';
+		let vehicleLabel = 'Bus ID ';
 
 		// Update the popup's HTML
 		popup.setHTML(`
 		<div style="display: flex; align-items: center;justify-content:center;">
-		<img src="${routeIcons[markers[vehicle.properties.vehicle_id].route_code]}" style="width: 24px; height: 24px; border-radius: 50%;">
+		<img src="images/metro_logo_only_black.png" style="width: 24px; height: 24px; border-radius: 50%;">
 		<span></span>
 	</div>
+		<div class="roundedBusButton" style="text-align: center;">${vehicle.properties.route_code}</div>
 			<div style="text-align: center;">${vehicleLabel}${vehicle.properties.vehicle_id}<br>                      
 			Data from: ${new Date(markers[vehicle.properties.vehicle_id].timestamp * 1000).toLocaleTimeString()}
 			</div>
@@ -702,72 +752,67 @@ function updateMarkerRotations() {
 map.addControl(new HomeControl(), 'top-left');
 
 // Check if Geolocation API is available
-function getUserLocation(){
-	// Set the map's center to the user's location once it's available
+if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        let lat = position.coords.latitude;
+        let lng = position.coords.longitude;
 
-	if ("geolocation" in navigator) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			let lat = position.coords.latitude;
-			let lng = position.coords.longitude;
-	
-			// Check if the user is in Los Angeles County
-			if (lat >= LA_COUNTY_BOUNDS.south && lat <= LA_COUNTY_BOUNDS.north && lng >= LA_COUNTY_BOUNDS.west && lng <= LA_COUNTY_BOUNDS.east) {
-				// Create a new HTML element for the user's location
-				let userLocation = document.createElement("div");
-				userLocation.id = "userLocation";
-				userLocation.className = "pulsatingIcon";
-	
-				// Add the user's location to the map
-				// Create a new marker
-				let marker = new maplibregl.Marker(userLocation)
-					.setLngLat([lng, lat])
-	
-				// Zoom in to the user's location
-				map.flyTo({center: [lng, lat], zoom: 12});
-	
-				// Add a circle to represent the accuracy of the geolocation
-				let accuracy = position.coords.accuracy;
-				map.addSource('circle', {
-					'type': 'geojson',
-					'data': {
-						'type': 'FeatureCollection',
-						'features': [{
-							'type': 'Feature',
-							'geometry': {
-								'type': 'Point',
-								'coordinates': [lng, lat]
-							}
-						}]
-					}
-				});
-				map.addLayer({
-					'id': 'circle',
-					'type': 'circle',
-					'source': 'circle',
-					'paint': {
-						'circle-radius': accuracy,
-						'circle-color': '#007cbf',
-						'circle-opacity': 0.3
-					}
-				});
-			}
-		});
-		} else {
-		console.log("Geolocation is not supported by this browser.");
-		}
-		// Add geolocate control to the map.
-		let geolocate = new maplibregl.GeolocateControl({
-		positionOptions: {
-			enableHighAccuracy: true
-		},
-		trackUserLocation: true
-	});
-	geolocate.on('geolocate', function(e) {
-		map.flyTo({center: [e.coords.longitude, e.coords.latitude], zoom: 14});
-	});
-	
-	map.addControl(geolocate, 'top-left');
+        // Check if the user is in Los Angeles County
+        if (lat >= LA_COUNTY_BOUNDS.south && lat <= LA_COUNTY_BOUNDS.north && lng >= LA_COUNTY_BOUNDS.west && lng <= LA_COUNTY_BOUNDS.east) {
+            // Create a new HTML element for the user's location
+            let userLocation = document.createElement("div");
+            userLocation.id = "userLocation";
+            userLocation.className = "pulsatingIcon";
 
-}
+            // Add the user's location to the map
+            // Create a new marker
+            let marker = new maplibregl.Marker(userLocation)
+                .setLngLat([lng, lat])
 
+            // Zoom in to the user's location
+            map.flyTo({center: [lng, lat], zoom: 12});
 
+            // Add a circle to represent the accuracy of the geolocation
+            let accuracy = position.coords.accuracy;
+            map.addSource('circle', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features': [{
+                        'type': 'Feature',
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': [lng, lat]
+                        }
+                    }]
+                }
+            });
+            map.addLayer({
+                'id': 'circle',
+                'type': 'circle',
+                'source': 'circle',
+                'paint': {
+                    'circle-radius': accuracy,
+                    'circle-color': '#007cbf',
+                    'circle-opacity': 0.3
+                }
+            });
+        }
+    });
+    } else {
+    console.log("Geolocation is not supported by this browser.");
+    }
+    // Add geolocate control to the map.
+    let geolocate = new maplibregl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+});
+
+map.addControl(geolocate, 'top-left');
+
+// Set the map's center to the user's location once it's available
+geolocate.on('geolocate', function(e) {
+    map.flyTo({center: [e.coords.longitude, e.coords.latitude], zoom: 14});
+});
