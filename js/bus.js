@@ -396,20 +396,31 @@ document.addEventListener('visibilitychange', function() {
 
 
 function updateMap(features) {
-	if (!map.getSource('vehicles')) {
-		map.addSource('vehicles', {
-			type: 'geojson',
-			data: {
-				type: 'FeatureCollection',
-				features: features
-			}
-		});
-	} else {
-		map.getSource('vehicles').setData({
-			type: 'FeatureCollection',
-			features: features
-		});
-	}
+    if (!map.getSource('vehicles')) {
+        map.addSource('vehicles', {
+            type: 'geojson',
+            data: {
+                type: 'FeatureCollection',
+                features: features
+            }
+        });
+    } else {
+        map.getSource('vehicles').setData({
+            type: 'FeatureCollection',
+            features: features
+        });
+    }
+
+    // Calculate the bounding box of the features
+    const bounds = features.reduce((bounds, feature) => {
+        const coordinates = feature.geometry.coordinates;
+        return bounds.extend(coordinates);
+    }, new maplibregl.LngLatBounds(features[0].geometry.coordinates, features[0].geometry.coordinates));
+
+    // Fit the map to the bounds
+    map.fitBounds(bounds, {
+        padding: 20
+    });
 }
 
 function processAndUpdate(data) {
@@ -816,3 +827,4 @@ map.addControl(geolocate, 'top-left');
 geolocate.on('geolocate', function(e) {
     map.flyTo({center: [e.coords.longitude, e.coords.latitude], zoom: 14});
 });
+
