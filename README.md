@@ -1,6 +1,6 @@
 # Metro Live Map
 
-The Metro Live Map is a web application that provides real-time updates of vehicle locations on a map.
+The Metro Live Map is a web application that provides real-time updates of vehicle locations on a map.  This map and the APIs it uses are NOT maintained.
 
 ## Features
 
